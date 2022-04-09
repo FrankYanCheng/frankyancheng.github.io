@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://frankyancheng.github.io/</id>
-    <title>Gridea</title>
-    <updated>2022-04-09T09:50:34.091Z</updated>
+    <title>没马蹄的小栈</title>
+    <updated>2022-04-09T09:54:26.246Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://frankyancheng.github.io/"/>
     <link rel="self" href="https://frankyancheng.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>乱花渐欲迷人眼，浅草才能没马蹄</subtitle>
     <logo>https://frankyancheng.github.io/images/avatar.png</logo>
     <icon>https://frankyancheng.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, Gridea</rights>
+    <rights>All rights reserved 2022, 没马蹄的小栈</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://frankyancheng.github.io/post/hello-gridea/</id>
