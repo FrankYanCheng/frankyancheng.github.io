@@ -1,22 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://frankyancheng.github.io/</id>
-    <title>没马蹄的小栈</title>
-    <updated>2022-04-09T10:23:46.055Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://frankyancheng.github.io/"/>
-    <link rel="self" href="https://frankyancheng.github.io/atom.xml"/>
-    <subtitle>乱花渐欲迷人眼，浅草才能没马蹄</subtitle>
-    <logo>https://frankyancheng.github.io/images/avatar.png</logo>
-    <icon>https://frankyancheng.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, 没马蹄的小栈</rights>
-    <entry>
-        <title type="html"><![CDATA[Java虚拟机笔记]]></title>
-        <id>https://frankyancheng.github.io/post/java-xu-ni-ji-bi-ji/</id>
-        <link href="https://frankyancheng.github.io/post/java-xu-ni-ji-bi-ji/">
-        </link>
-        <updated>2022-04-09T10:23:28.000Z</updated>
-        <content type="html"><![CDATA[<ol>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机笔记 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1649499822605">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+Java简介
+1.1.	Java技术体系
+JDK(Java Development Kit):Java程序设计语言、Java虚拟机、Java类库。JDK常指代整个Java技术体系。
+JRE(Java Runtime Environment..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1649499822605" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机笔记</h2>
+            <div class="post-date">2022-04-09</div>
+            
+            <div class="post-content" v-pre>
+              <ol>
 <li>Java简介<br>
 1.1.	Java技术体系<br>
 JDK(Java Development Kit):Java程序设计语言、Java虚拟机、Java类库。JDK常指代整个Java技术体系。<br>
@@ -273,20 +355,46 @@ C）	绑定多个条件<br>
 挂起和恢复线程的操作都需要转入内核态完成，这种操作给虚拟机带来了很大的压力。而且共享数据的锁一般持续时间也很短，不需要挂起和恢复。解决方式是可以让后面的请求锁的那个线程等一会，但是不放弃处理器的执行时间。让线程进行忙等。<br>
 轻量级锁：<br>
 减少传统的重量级锁使用操作系统互斥产生的性能消耗，如果没有竞争，轻量级锁通过CAS操作成功避免使用互斥量的开销。如果存在锁竞争，除了互斥量的开销，还额外发生了CAS操作的开销。所以在有竞争的情况下，轻量级锁反而会比传统的重量级锁更慢。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello World]]></title>
-        <id>https://frankyancheng.github.io/post/hello-gridea/</id>
-        <link href="https://frankyancheng.github.io/post/hello-gridea/">
-        </link>
-        <updated>2022-04-09T10:02:05.000Z</updated>
-        <summary type="html"><![CDATA[<p>##Hello World<br>
-**This is the first page~</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>##Hello World<br>
-**This is the first page~</p>
-<!-- more -->
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/post/hello-gridea/">
+                  <h3 class="post-title">
+                    Hello World
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
