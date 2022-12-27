@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Mysql索引中的数据结构 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="索引是用空间换时间的操作，索引一般是通过建立额外的数据结构来实现的，适当的索引有益于加快查询速度，但过多的索引也容易导致频繁更新索引数据结构而带来的时间花销。
+
+索引的优点：
+1）使用唯一索引，可保证数据库表中每一行数据的唯一性
+2）加快数..." />
+    <meta name="keywords" content="基础知识" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Mysql索引中的数据结构</h2>
+            <div class="post-date">2022-11-13</div>
+            
+            <div class="post-content" v-pre>
+              <p>索引是用空间换时间的操作，索引一般是通过建立额外的数据结构来实现的，适当的索引有益于加快查询速度，但过多的索引也容易导致频繁更新索引数据结构而带来的时间花销。</p>
+<!-- more -->
+<p>索引的优点：<br>
+1）使用唯一索引，可保证数据库表中每一行数据的唯一性<br>
+2）加快数据的查询速度，表的排序分组查询速度，加快表之间的连接<br>
+索引的劣势：<br>
+1）创建索引和维护索引需要耗费时间，数据量增加耗费的时间也会增加<br>
+2）索引需要占磁盘空间<br>
+3）对表进行操作的时候，索引也需要动态的进行维护</p>
+<p>索引可以分为很多类型：</p>
+<!-- more -->
+<h1 id="普通索引">普通索引</h1>
+<p><img src="https://frankyancheng.github.io//post-images/1668329951726.png" alt="" loading="lazy"><br>
+普通索引可重复，唯一索引不可重复，普通索引是非聚簇索引，会涉及到回表的操作<br>
+<img src="https://frankyancheng.github.io//post-images/1668330026213.png" alt="" loading="lazy"><br>
+如果主键的长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小</p>
+<h1 id="唯一索引">唯一索引</h1>
+<p>不允许具有索引值相同的行，系统在创建该索引的时候检查是否有重复的键值，并在每次使用INSERT语句或者UPDATE语句添加数据时候进行检查。创建唯一索引的目的不是为了提高访问速度，只是为了避免数据出现重复。<br>
+注：主键和唯一索引的区别<br>
+一张表只可以有一个主键，但是可以有多个唯一索引，多个唯一索引可以有一个记录为null。<br>
+<img src="https://frankyancheng.github.io//post-images/1668330079655.png" alt="" loading="lazy"></p>
+<h1 id="单列索引和组合索引">单列索引和组合索引</h1>
+<p>单列索引是一个索引只包含单个列，一个表可以有多个单列索引<br>
+<img src="https://frankyancheng.github.io//post-images/1668330202116.png" alt="" loading="lazy"><br>
+组合索引是在表的多个字段组合上创建索引，只有在查询条件中使用这些字段的左边字段索引才会使用，遵循最左前缀集合。<br>
+<img src="https://frankyancheng.github.io//post-images/1668330230573.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1668330268021.png" alt="" loading="lazy"><br>
+Mysql在查询的时候也只能使用一个索引，虽然有两个索引，但不能同时用上，只能选择最优的那个索引。</p>
+<h1 id="全文索引">全文索引</h1>
+<p>在定义索引的列上支持全文查找，只有MyISAM引擎支持全文索引，Mysql 8.0默认是InnoDB,需要更改表结构<br>
+<img src="https://frankyancheng.github.io//post-images/1668330313031.png" alt="" loading="lazy"><br>
+全文索引是为了解决需要基于相似度的查询，而不是精确数值比较。全文索引只能用于InnoDB或者MyISAM表，只能为CHAR、VARCHAR、TEXT列创建。<br>
+全文索引的限制：<br>
+1）全文索引是一个利用磁盘空间换取性能的方法<br>
+2）全文索引创建速度慢，而且对全文索引的各种数据修改操作也慢<br>
+3）区分表不支持全文搜索<br>
+4）由多列组合而成的全文检索的索引必须使用相同的字符集和排序规则<br>
+5）全文索引存在精度问题</p>
+<h1 id="聚簇索引和非聚簇索引">聚簇索引和非聚簇索引</h1>
+<p><img src="https://frankyancheng.github.io//post-images/1668330418128.png" alt="" loading="lazy"><br>
+InnoDB的聚簇索引</p>
+<p><img src="https://frankyancheng.github.io//post-images/1668330452413.png" alt="" loading="lazy"><br>
+MyISAM的非聚簇索引<br>
+(MyISAM索引占用的空间小，对一些大数据量的排序和全表扫描、统计，使用MyISAM的优势会更大一些)</p>
+<p>A）聚簇索引优势<br>
+查询速度更快，主键和行数据是放在同一行中的，找到叶子节点就可以立即将行数据返回。<br>
+减少了辅助索引的数据页分裂时候的维护工作（使用主键作为指针不使用地址值作为指针）<br>
+只需要从磁盘读取少量的数据页就能获取信息<br>
+B) 聚簇索引劣势<br>
+维护索引昂贵，如果使用UUID作为主键，是的数据存储稀疏，会出现聚簇索引很慢的情况</p>
+<h2 id="索引使用的注意事项">索引使用的注意事项</h2>
+<p>1）字段使用函数，将不能用到索引<br>
+2）注意某些字段无引号导致的全表扫描</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/jl4QLIRpO/" class="tag">
+                    基础知识
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/redis-zhong-de-yi-xie-shu-ju-jie-gou/">
+                  <h3 class="post-title">
+                    Redis中的一些数据结构
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

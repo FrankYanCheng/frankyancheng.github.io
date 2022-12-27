@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>git学习笔记 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="当前都是使用git进行项目代码的合并，提交等操作，该篇主要是对git进行回顾，来源主要为网上的资料整理以及实践。
+git分支模型
+
+git主要分为
+1）工作区
+2）本地暂存区
+3）本地仓库
+4）远程仓库
+常见命令
+将文件添加到暂存区
+命令：..." />
+    <meta name="keywords" content="基础知识" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">git学习笔记</h2>
+            <div class="post-date">2022-12-13</div>
+            
+            <div class="post-content" v-pre>
+              <p>当前都是使用git进行项目代码的合并，提交等操作，该篇主要是对git进行回顾，来源主要为网上的资料整理以及实践。</p>
+<h1 id="git分支模型">git分支模型</h1>
+<figure data-type="image" tabindex="1"><img src="https://frankyancheng.github.io//post-images/1670935929472.png" alt="" loading="lazy"></figure>
+<p>git主要分为<br>
+1）工作区<br>
+2）本地暂存区<br>
+3）本地仓库<br>
+4）远程仓库</p>
+<h1 id="常见命令">常见命令</h1>
+<h2 id="将文件添加到暂存区">将文件添加到暂存区</h2>
+<p>命令：git add readme.txt</p>
+<h2 id="将文件提交到仓库">将文件提交到仓库</h2>
+<p>命令：git commit –m “readme.txt提交”</p>
+<h2 id="查看提交状态">查看提交状态</h2>
+<p>命令：git status</p>
+<h3 id="无变化时的状态">无变化时的状态</h3>
+<figure data-type="image" tabindex="2"><img src="https://frankyancheng.github.io//post-images/1670936137226.png" alt="" loading="lazy"></figure>
+<h3 id="有变化时的状态修改文件但还未添加到暂存区">有变化时的状态，修改文件，但还未添加到暂存区</h3>
+<figure data-type="image" tabindex="3"><img src="https://frankyancheng.github.io//post-images/1670936197433.png" alt="" loading="lazy"></figure>
+<h2 id="查看变更情况">查看变更情况</h2>
+<p>命令：git diff xxx(文件名称)</p>
+<h3 id="工作区和暂存区的比较">工作区和暂存区的比较</h3>
+<figure data-type="image" tabindex="4"><img src="https://frankyancheng.github.io//post-images/1670936318308.png" alt="" loading="lazy"></figure>
+<h2 id="提交状态">提交状态</h2>
+<p>命令：git log<br>
+<img src="https://frankyancheng.github.io//post-images/1670936429609.png" alt="" loading="lazy"><br>
+查看提交记录的状态信息<br>
+可以使用git log --pretty=oneline的方式查看简易信息<br>
+<img src="https://frankyancheng.github.io//post-images/1670936485886.png" alt="" loading="lazy"></p>
+<h2 id="回退操作">回退操作</h2>
+<p>git reset –-hard HEAD^(回退上一个版本)<br>
+git reset –hard HEAD~n(回退N个版本)<br>
+<img src="https://frankyancheng.github.io//post-images/1670936520273.png" alt="" loading="lazy"></p>
+<h2 id="查看引用">查看引用</h2>
+<p>git reflog<br>
+显示所有的操作记录，包括提交和回退等操作，可以结合git reset –hard xxx进行回滚操作<br>
+<img src="https://frankyancheng.github.io//post-images/1670936860385.png" alt="" loading="lazy"></p>
+<h2 id="git-检出操作">git 检出操作</h2>
+<p>命令： git checkout -- xxxx（文件名称）格式<br>
+1）文件修改后，还没有放到暂存区，使用撤销则回到和原来一样的版本中<br>
+2）已经放入暂存区的，撤销后就回到暂存区的状态</p>
+<h2 id="git-revert操作">git revert操作</h2>
+<p>用一次新的commit回滚之前的commit，git reset是直接删除指定的commit</p>
+<h1 id="分支命令">分支命令</h1>
+<h2 id="检出操作">检出操作</h2>
+<p>命令：git checkout –b dev<br>
+相当于：<br>
+git branch dev<br>
+git checkout dev</p>
+<h2 id="查看当前分支">查看当前分支</h2>
+<p>git branch<br>
+<img src="https://frankyancheng.github.io//post-images/1670937162467.png" alt="" loading="lazy"></p>
+<h2 id="合并分支merge">合并分支merge</h2>
+<p><img src="https://frankyancheng.github.io//post-images/1670937197992.png" alt="" loading="lazy"><br>
+命令： git merge dev<br>
+切换到master分支，通过git merge dev，可以合并dev分支的内容<br>
+<img src="https://frankyancheng.github.io//post-images/1670937260588.png" alt="" loading="lazy"><br>
+合并分支问题最小化的一种方式是执行频繁的合并操作<br>
+<img src="https://frankyancheng.github.io//post-images/1670937293795.png" alt="" loading="lazy"></p>
+<h2 id="合并冲突">合并冲突</h2>
+<p>当两个分支的内容都提交以后，可以进行分支的合并和冲突的解决<br>
+<img src="https://frankyancheng.github.io//post-images/1671352278009.png" alt="" loading="lazy"><br>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD后面的内容为主分支修改的内容</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>fenzhi1表示为fenzhi1上修改的内容</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h2 id="分支策略">分支策略</h2>
+<p>1)master分支一般是非常稳定的，用来发布新版本，一般不允许在上面干活，通过其他分支合并的方式进行<br>
+2)bug分支：每个bug都可以通过一个临时分支来修复，修复完成后，合并分支然后将临时分支删除掉</p>
+<h2 id="工作区隐藏">工作区隐藏</h2>
+<p>命令：git stash<br>
+当开发在进行一部分的时候，需要临时做其他事情，可以通过git stash隐藏当前工作区内容。<br>
+<img src="https://frankyancheng.github.io//post-images/1670937411661.png" alt="" loading="lazy"><br>
+当工作区隐藏后<br>
+<img src="https://frankyancheng.github.io//post-images/1670937464358.png" alt="" loading="lazy"><br>
+也不是存在暂存区中，此时可以通过git stash list来隐藏状态<br>
+<img src="https://frankyancheng.github.io//post-images/1670938449998.png" alt="" loading="lazy"><br>
+1.git stash apply恢复，恢复后，stash内容并不删除，你需要使用命令git stash drop来删除。<br>
+2.另一种方式是使用git stash pop,恢复的同时把stash内容也删除了。</p>
+<h2 id="变基操作">变基操作</h2>
+<h3 id="修改多个commit的提交记录">修改多个commit的提交记录</h3>
+<p>1）示例(合并多个commit)<br>
+<img src="https://frankyancheng.github.io//post-images/1671352398477.png" alt="" loading="lazy"><br>
+使用git rebase –i xxxx（commit编号），此处的编号是合并编号后一个提交的内容开始。<br>
+如想合并alter a的所有内容，则commit提交使用687d080的编号<br>
+<img src="https://frankyancheng.github.io//post-images/1671352430277.png" alt="" loading="lazy"><br>
+将pick修改调整为s<br>
+<img src="https://frankyancheng.github.io//post-images/1671352453831.png" alt="" loading="lazy"><br>
+将后面提交的部分内容注释掉，并修改合并要提交的内容<br>
+<img src="https://frankyancheng.github.io//post-images/1671352500068.png" alt="" loading="lazy"><br>
+修改合并后的commit内容</p>
+<p>2）示例（修改commit分支内容）<br>
+同样的，使用git rebase –i xxxx（commit编号）<br>
+<img src="https://frankyancheng.github.io//post-images/1671352530634.png" alt="" loading="lazy"><br>
+弹出窗体中修改提交内容<br>
+<img src="https://frankyancheng.github.io//post-images/1671352551805.png" alt="" loading="lazy"><br>
+修改后的提交记录如下：<br>
+<img src="https://frankyancheng.github.io//post-images/1671352605911.png" alt="" loading="lazy"></p>
+<h3 id="合并分支策略">合并分支策略</h3>
+<p>1）使用merge的情况<br>
+merge会保留所有分支的commit内容,并且在merge的时候会生成一个新的提交<br>
+<img src="https://frankyancheng.github.io//post-images/1671352676440.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1671352698527.png" alt="" loading="lazy"></p>
+<p>2）rebase<br>
+只对尚未推送或未分享给别人的本地分支修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作。<br>
+<img src="https://frankyancheng.github.io//post-images/1671352791878.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1671352798512.png" alt="" loading="lazy"><br>
+Rebase有一个缺点是拉取分支的时候不知道基地是从哪里出来的。变基以后顺序提交顺序会比较乱。一般使用merge进行操作</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/jl4QLIRpO/" class="tag">
+                    基础知识
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/ji-suan-ji-wang-luo-ji-chu-zhi-shi-tuo-bu/">
+                  <h3 class="post-title">
+                    计算机网络基础知识拓扑
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

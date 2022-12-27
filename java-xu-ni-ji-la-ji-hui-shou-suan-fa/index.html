@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机垃圾回收算法 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Lisp是第一门开始使用内存动态分配和垃圾收集技术的语言。当垃圾收集成为系统达到更高并发量的瓶颈时，就必须对这些“自动化”的技术实施必要的监控和调节。
+程序计数器和虚拟机栈的内存分配大体上是可知的，几个区域的内存分配和回收都具备确定性。而J..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机垃圾回收算法</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <p>Lisp是第一门开始使用内存动态分配和垃圾收集技术的语言。当垃圾收集成为系统达到更高并发量的瓶颈时，就必须对这些“自动化”的技术实施必要的监控和调节。<br>
+程序计数器和虚拟机栈的内存分配大体上是可知的，几个区域的内存分配和回收都具备确定性。而Java堆和方法区这两个区域则有很显著的不确定性。垃圾回收的不确定性的点主要在于Java堆和方法区这两个区域。</p>
+<h1 id="对象引用">对象引用</h1>
+<p>1）引用计数法：GC收集当前未使用引用计数法，引用计数法虽然原理简单，效率高，但有很多额外的情况需要考虑，比如说单纯的引用计数很难解决对象之间的相互循环引用问题。<br>
+2）可达性分析：当前主流的商用语言的内存管理子系统，都是通过可达性分析算法来判定对象是否存活的。从GC Roots的根对象作为起始点，判断是否有引用链相连接。为了避免GC Roots包含过多对象而过度膨胀，它们在实现上也做出了各种优化处理。<br>
+3）引用类型分为：强引用、软引用、弱引用和虚引用<br>
+a.强引用：程序代码中普遍存在的引用赋值，类似A a = new A();只要强引用还存在，垃圾收集器就永远不会回收被引用的对象。<br>
+b.软引用：用来描述一些还有用，但非必须的对象。在系统将要发生内存溢出前，会把这些对象列进回收范围之中进行二次回收。<br>
+c.弱引用：强度比软引用更弱一些。关联的对象只能生存到下一次垃圾收集器发生为止。<br>
+d.虚引用：为一个对象设置虚引用的目的是为了能在这个对象被收集器回收时收到一个系统通知。<br>
+4）对象消亡的过程：<br>
+a.第一次标记：如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链，则会被标记，然后根据是否有必要执行finalize()方法进行筛选<br>
+b.第二次标记：确有必要执行finalize()方法，将对象放置在队列中，由虚拟机自动建立的低调度线程执行finalize方法。如果对象成功被引用，将被移除“即将回收”的集合。【一个对象的finalize方法被执行，仍然可以存活】</p>
+<h1 id="分代收集理论">分代收集理论</h1>
+<p>1）弱分代假说：绝大多数对象都是朝生夕灭<br>
+2）强分代假说：熬过越多次垃圾收集过程的对象就越难于消亡<br>
+3）夸代引用相对于同代引用来说仅占极少数【存在互相引用关系的两个对象，应该倾向于同时生存或者同时消亡】，跨代引用会把老年代划分成若干小块，标识出老年代的哪一块内存会存在跨代引用。<br>
+根据假说情况，对堆划分了不同的区域，每次只回收某一个或者某些部分的区域。</p>
+<h1 id="常见垃圾回收算法">常见垃圾回收算法</h1>
+<h2 id="标记-清除算法">标记-清除算法</h2>
+<p>（基础方式）在1960年由List之父提出，标记出所有需要回收的对象，在标记完成后，统一回收掉所有被标记的对象。<br>
+缺点：<br>
+1）执行效率不够稳定，需要进行大量标记和清除的动作<br>
+2）内存空间的碎片化问题，碎片太多可能导致触发另一次垃圾收集动作</p>
+<h2 id="标记-复制算法">标记-复制算法</h2>
+<p>（大多虚拟机采用该方式回收新生代）在1969年提出，将可以内存划分为大小相等的两块，每次只使用其中的一块，当一块内存用完，就将还存活 的对象复制到另一块上面。<br>
+缺点：<br>
+1）如果内存中大多数对象是活着的，将会产生大量的内存复制开销<br>
+2）内存只能使用其中的一半，可使用分配担保或者重新设置比值的问题缓和该问题<br>
+优势：<br>
+1）不需要考虑空间碎片复杂情况，运行简单高效（新生代有98%熬不过第一轮收集，不需要按照1：1分配内存，1989年提出Appel式回收：Eden:Survivor:Survivor,8:1:1,设计有逃生门）</p>
+<h2 id="标记-整理算法">标记-整理算法</h2>
+<p>让所有存活的对象都向内存空间一端移动，然后直接清理边界以外的内存。且该对象移动操作必须全程暂停用户应用程序才能进行。（不移动对象停顿时间会更短，但是从整个程序吞吐量上看，移动对象会更划算）。<br>
+所以HotSpot虚拟机关注吞吐量的Parallel收集器是基于标记-整理算法的，而关注延迟的CMS收集器是基于标记-清除算法的。<br>
+可以结合标记-清除、标记整理算法，平时使用清除，等到一定程度以后使用标记整理。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-dui-xiang/">
+                  <h3 class="post-title">
+                    Java虚拟机对象
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

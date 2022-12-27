@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="乱花渐欲迷人眼，浅草才能没马蹄">
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: Java</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-nei-cun-qu-yu-he-chang-jian-wen-ti/">
+                  <h2 class="post-title">Java虚拟机内存区域和常见问题</h2>
+                </a>
+                <div class="post-date">
+                  2022-10-18
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-de-li-shi/">
+                  <h2 class="post-title">Java的历史</h2>
+                </a>
+                <div class="post-date">
+                  2022-10-18
+                </div>
+                <div class="post-abstract">
+                  <p>1991年，James Gosling领导的绿色计划目标是开发一种能够在各种消费性电子产品上运行的程序架构Oak。<br>
+1995年，Oak更名为Java,发布1.0版本并提出“Write Once,Run Anywhere”。<br>
+1996年，JDK 1.0发布，提供了一个纯解释执行的Java虚拟机实现（Sun Classic VM）。并开始流行起来。<br>
+1997年，Sun公司发布了JDK 1.1,Java许多基础的技术支撑点都是在JDK 1.1版本中提出。包括JAR文件格式、JavaBean、JDBC、RMI,内部类、反射等。到1999年，共发布了9个版本。<br>
+1998年，JDK发布1.2版本，将Java技术体系拆分为1）面向桌面的应用开发（J2SE）、2）面向企业级的开发（J2EE）、面向手机等移动终端的开发（J2ME）。并第一次内置了JIT即时编译器。添加了现在Java编码中极为常见的Collections集合类等。<br>
+1999年，HotSpot虚拟机诞生，在JDK1.3版本后成为默认的虚拟机。<br>
+2000年，JDK1.3发布，主要体现在Java类库（运算类库和Timer API等）和JNDI等服务上。<br>
+2002年，JDK1.4发布，增加了技术特性，如正则表达式、异常链、NIO（同步非阻塞的IO模型）、日志类、XML解析等。<br>
+2004年，JDK 5发布，在语法上做了非常大的改进，如自动装箱、泛型、动态注解、枚举、可变长参数、遍历循环等。在虚拟机和API层面上，版本改进了Java的内存模型，提供了并发包等。<br>
+2006年，JDK 6发布，对虚拟机内部做了大量改进，包括锁、同步、垃圾收集、类加载等方面。Sun将Java开源，并建立OpenJDK组织对源码进行独立的管理。因为各种原因，JDK 6的生命周期很长，直到2018年。<br>
+2009年，JDK 7 发布，提供新的收集器、加强对非Java的支持、并行的类加载架构。Oracle收购Sun公司，Java归属Oracle。<br>
+2014年发布JDK8，对Lambda表达式的支持，新的时间日期API、移除HotSopt永久代。<br>
+2017年,JDK9发布，增强了若干工具，整顿HopSpot各自模块的日志系统。<br>
+2018年,JDK 10发布，主要目标是内部重构，如统一垃圾收集器解耦等。Oracle将J2EE捐赠给Eclipse基金会，不使用Java商标，改用Jakarat EE。<br>
+2018年，JDK11发布，包含ZGC革命性的垃圾收集器，和Lambda语法的改进。OpenJdk又两个主线版本，收费版本支持三年，免费版本支持半年。RedHat代替Oracle成为维护者。<br>
+2019年，JDK12发布，包括Switch表达式、Java微测试套件等新功能，和RedHat领导的收集器。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-bi-ji/">
+                  <h2 class="post-title">Java虚拟机知识框架</h2>
+                </a>
+                <div class="post-date">
+                  2022-04-09
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+    <a href="https://frankyancheng.github.io/YdZpMeBAX/page/2/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java多线程对象及变量的并发访问 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="synchronized同步方法
+关键字synchronized可用来保障原子性、可见性和有序性。
+1）方法内变量私有：如果是方法内部的私有变量，则是线程安全的，是方法内部的变量是私有的造成的。
+2）脏读写问题：但是多个线程共同访问的对象如..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java多线程对象及变量的并发访问</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="synchronized同步方法">synchronized同步方法</h2>
+<p>关键字synchronized可用来保障原子性、可见性和有序性。<br>
+1）方法内变量私有：如果是方法内部的私有变量，则是线程安全的，是方法内部的变量是私有的造成的。<br>
+2）脏读写问题：但是多个线程共同访问的对象如果有多个实例变量，则运行的结果有可能出现交叉的情况。在读同一个对象的方法时，如果方法未声明synchronzied，则可能存在脏读的问题，是不同线程争抢实例的结果。<br>
+3）对象锁：synchronized创建的是对象锁，即访问不同的对象的时候，使用该方法还是同步的。但是如果访问同一个对象的不同的synchronized修饰的方法，则也是同步的。synchronzied会让这个对象使用synchronized修饰的方法都锁起来，即实现同步处理。只有共享资源的读写访问才需要同步块。<br>
+（同步方式容易造成死循环，可以通过调用同步块的方式解决，需要避免出现死锁带来的问题）<br>
+4）synchronized锁的可重入性：<br>
+对于获得某个对象的锁的线程，当对象锁还没有释放，还可以再次获取对象锁。（子类也可以通过“可重入锁”调用父类的同步方法）。即对象锁所在的方法可以再调用其他的对象锁方法。<br>
+5）当线程执行的代码出现异常时，其所持有的锁会自动释放<br>
+6）Synchronized同步方法不具有继承性，需要在子类中额外添加synchronized进行修饰</p>
+<h2 id="synchronized同步语句块">synchronized同步语句块</h2>
+<p>1）同步弊端：使用同步方法有弊端，会让另一个线程等待比较久的时间。<br>
+2）同步块作用范围：不在synchronized块中的方法是异步执行，在synchronized块中是同步执行的。使用synchronized(this)的方式进行处理。<br>
+3）同步块的阻塞性：当一个线程访问对象的synchronized(this)方法后，其他线程对同一个object中的所有其他调用该对象的synchronized(this)访问 将会被阻塞。<br>
+4）同步块锁定范围：synchronized(this)也是锁定当前对象的<br>
+5）同步调用的顺序性：多个线程调用同一个对象的不同名称的synchronized同步方法或者代码块时，调用的效果是按照顺序执行的。<br>
+6）synchronized(非this)和synchronized方法、synchronized(this)方法是异步的，可以提高运行效率。<br>
+使用了锁对象依然可能造成“脏读”的风险，因为不同线程进入代码块的顺序是不一样的，要注意方法的synchronized。</p>
+<h2 id="synchronized锁任意对象">synchronized锁任意对象</h2>
+<p>支持将“任意对象”作为锁来实现同步功能，使用方式为synchronized(非this对象x)。不与其他非this同步方法争抢this锁，可以提高效率。（多个锁就是异步执行）</p>
+<h2 id="静态同步synchronized方法">静态同步synchronized方法</h2>
+<p>synchronized关键字添加到static静态方法上是给Class类上锁，而非synchronized关键字加到非static静态方法上是给对象上锁（两个共存的情况下是异步调用的）。同步synchronized(class)方法和synchronized static方法的作用是一样的。</p>
+<h2 id="string类型的常量池特性">String类型的常量池特性</h2>
+<p>在synchronized(String)时，注意String会存放到常量池中，导致其他代码不能使用String作为锁对象。推荐使用Object</p>
+<h2 id="volatile关键字">volatile关键字</h2>
+<p>当线程JVM设置为-server时，线程一直在线程的私有堆栈中取得变量。可能会造成和公共堆栈中的值不同。通过volatile关键字，强制从公共内存中读取变量的值。适用于多个线程感知到实例变量被更改了，多线程读取共享变量时可以获得最新值使用。（主要原因是私有内存和公有内存中的变量不同步）<br>
+Volatile关键字特点：<br>
+1）只保证了数据可见性，不保证数据的原子性<br>
+2）不会发生阻塞<br>
+3）Volatile不是线程同步的实现，性能比synchronized要好<br>
+4）关键字synchronized可以使多个线程访问同一个资源具有同步性，即将线程工作内存中的私有变量和公有内存的变量进行同步</p>
+<h2 id="automicinteger">AutomicInteger</h2>
+<p>I++ 操作的时候使用synchronized关键字实现同步外，还可以使用AtomicInteger原子类进行实现。原子类是不可分割的实体，没有其他线程可以中断或检查出处于原子操作中的变量。</p>
+<h2 id="代码重排序">代码重排序</h2>
+<p>CPU在执行代码时，会根据代码的执行时间进行优化。是为了追求更高的程序运行效率。重排序发生在没有依赖关系的时候。<br>
+Volatile关键字可以作为重排序的屏障，在之前或者之后的代码不能跨越屏障进行重排序</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-duo-xian-cheng-chang-yong-fang-fa/">
+                  <h3 class="post-title">
+                    Java多线程常用方法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

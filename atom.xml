@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://frankyancheng.github.io/</id>
+    <title>没马蹄的小栈</title>
+    <updated>2022-12-27T01:00:16.751Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://frankyancheng.github.io/"/>
+    <link rel="self" href="https://frankyancheng.github.io/atom.xml"/>
+    <subtitle>乱花渐欲迷人眼，浅草才能没马蹄</subtitle>
+    <logo>https://frankyancheng.github.io/images/avatar.png</logo>
+    <icon>https://frankyancheng.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, 没马蹄的小栈</rights>
+    <entry>
+        <title type="html"><![CDATA[数据库概念]]></title>
+        <id>https://frankyancheng.github.io/shu-ju-ku-gai-nian/</id>
+        <link href="https://frankyancheng.github.io/shu-ju-ku-gai-nian/">
+        </link>
+        <updated>2022-12-18T08:48:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>主要介绍常见的数据库类型和基础理论</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>主要介绍常见的数据库类型和基础理论</p>
+<!-- more -->
+<h1 id="数据库类型">数据库类型</h1>
+<h2 id="关系型数据库">关系型数据库</h2>
+<p>用简单的二维关系表示数据库模型结构，使用结构化查询语言（SQL）对数据库进行操作。<br>
+常见的有Oracle、DB2、SQL Server、Mysql</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据库名称</th>
+<th style="text-align:center">适用场景</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:center">缺点</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Oracle</td>
+<td style="text-align:center">一般用在满足对银行、金融、保险等行业大型数据库的需求上</td>
+<td style="text-align:center">1、具有很好的开放性 2、能在所有主流平台上运行 性能高、安全性高、风险低</td>
+<td style="text-align:center">1、对硬件要求很高 管理维护和操作比较复杂且昂贵</td>
+<td style="text-align:center">厂商：甲骨文，是世界上第一款支持SQL语言的关系型数据库，是世界上最流行的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">DB2</td>
+<td style="text-align:center">比较适合大型的分布式应用系统</td>
+<td style="text-align:center">1、稳定性、安全性、恢复性都很棒 2、从小规模到大规模的应用都可以使用</td>
+<td style="text-align:center">用起来繁琐</td>
+<td style="text-align:center">厂商：IBM</td>
+</tr>
+<tr>
+<td style="text-align:center">SQL Server</td>
+<td style="text-align:center">可以作为中型企业或者单位的数据库平台</td>
+<td style="text-align:center">功能全面、效率高</td>
+<td style="text-align:center">SQL Server只能在Windows系统中运行，无开放性</td>
+<td style="text-align:center">厂商：Microsoft</td>
+</tr>
+<tr>
+<td style="text-align:center">MySQL</td>
+<td style="text-align:center">广泛应用于互联网上的中小型网站中，并且大型网站也开始使用</td>
+<td style="text-align:center">1、Mysql是开源的，可以根据个人需要进行修改 2、体积小、速度快、成本低</td>
+<td style="text-align:center">1、安全系统复杂而且非标准 2、没有一种存储过程语言 3、不支持热备份</td>
+<td style="text-align:center">厂商：由瑞典MySQL AB公司开发，属于Oracle旗下产品</td>
+</tr>
+<tr>
+<td style="text-align:center">PostgreSQL</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">1、相比于MYSQL的各种text字段的限制，PG没有这个限制，可以支持各种大小，丰富的几何类型 2、事务隔离级别比Mysql会更好 3、任何子查询的性能都比Mysql要好 4、稳定性强，并且在高并发的读写条件下性能指标仍然维持在极限情况 有强悍的SQL编程能力</td>
+<td style="text-align:center">对超大内存下的内存使用率不那么充分</td>
+<td style="text-align:center">厂商：由瑞典MySQL AB公司开发，属于Oracle旗下产品</td>
+</tr>
+</tbody>
+</table>
+<!-- more -->
+<h2 id="非关系型数据库">非关系型数据库</h2>
+<p>解决大数据集合多重数据类带来的挑战，尤其是大数据应用难题。常见的非关系型数据库有Memcached、MongoDB、Redis、HBase等</p>
+<h3 id="数据库分类">数据库分类</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">数据模型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">键值（key-value）存储数据库</td>
+<td style="text-align:center">通常用hash表来实现</td>
+<td style="text-align:center">常用于大量数据的高负载缓存，但是只对部分数据进行高负载查询或者更新的时候，效率则较低</td>
+</tr>
+<tr>
+<td style="text-align:center">列存储数据库</td>
+<td style="text-align:center">使用列簇将同一列数据存储在一起</td>
+<td style="text-align:center">查询速度快，多用于分布式文件系统</td>
+</tr>
+<tr>
+<td style="text-align:center">文档型数据库</td>
+<td style="text-align:center">Key-value对应的键值，Value值为结构化数据</td>
+<td style="text-align:center">较为灵活，但是查询性能不高，可用于Web应用</td>
+</tr>
+<tr>
+<td style="text-align:center">图像数据库</td>
+<td style="text-align:center">图结构</td>
+<td style="text-align:center">使用最短路径寻址，N度查找等</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常见数据库">常见数据库</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据库名称</th>
+<th style="text-align:center">适用场景</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Redis</td>
+<td style="text-align:center">数据变化较少，执行预定义查询、进行数据统计的。如股票价格、数据分析、实时数据收集等 Key-Value型数据库</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">MongoDB</td>
+<td style="text-align:center">执行动态查询 对大数据库有性能要求</td>
+<td style="text-align:center">基于分布式文件的数据库，介于关系型和非关系型数据库之间</td>
+</tr>
+<tr>
+<td style="text-align:center">Neo4j</td>
+<td style="text-align:center">适用于存储图形一类的数据，如社会关系、地图和网络拓扑等</td>
+<td style="text-align:center">高性能NoSQL图形数据库，将数据存储在网络上而不是表中</td>
+</tr>
+<tr>
+<td style="text-align:center">Casandra</td>
+<td style="text-align:center">适用于存储特别大的数据，在银行金融业中使用，写比读更快</td>
+<td style="text-align:center">使用列存储的混合型的非关系的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">HBase</td>
+<td style="text-align:center">对大数据进行随机、实时访问</td>
+<td style="text-align:center">分布式的、面向列的开源数据库，是一个适合非结构化数据存储的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">CouchDB</td>
+<td style="text-align:center">数据变化较少</td>
+<td style="text-align:center">面向文档的数据库管理系统</td>
+</tr>
+</tbody>
+</table>
+<!-- more -->
+<h1 id="数据库基本理论">数据库基本理论</h1>
+<h2 id="acid理论">ACID理论</h2>
+<p>数据库系统在写入或者更新资料的过程中，为保证事务的正确性和可靠性必须具备的四个特性。<br>
+A-Automicity（原子性）<br>
+一个事务中的所有操作，要么全部完成要么全部不完成，不会结束在中间的某个环节。<br>
+C- Consistency（一致性）<br>
+写入的资料必须完全符合所有的预设规则<br>
+I- Isolation（隔离性）<br>
+隔离性防止多个事务并发执行时由于交叉执行导致的数据不一致性。<br>
+D- Durabiliy（持久性）<br>
+事务处理结束以后，对数据的修改是永久，即使系统故障也不会丢失。</p>
+<h2 id="分布式系统理论">分布式系统理论</h2>
+<p>分布式系统最大的特点是可扩展性，能够适应需求变化而扩展。通过增加服务器数量来增强分布式系统整体的处理能力，以应对企业增长带来的计算需求增加。</p>
+<h2 id="cap理论">CAP理论</h2>
+<p>一个分布式系统不可能同时满足一致性（C）、可用性（A）、分区容错性（P）三个要求，最多只能满足其中的两项，对于一个分布式系统，分区容错性是基本需求。一般需要在C和A之间寻求平衡。<br>
+一致性（Consistency）<br>
+更新操作完成后，所有节点在同一时间的数据完全一致<br>
+可用性（Availabiliy）<br>
+即使是严重的网络错误，每个请求必须完成<br>
+分区容错性（Partition tolerance）<br>
+遇到某个节点或者网络分区故障时候，仍然能够对外提供满足一致性和可用性的服务</p>
+<h2 id="base理论">Base理论</h2>
+<p>分布式系统在出现故障的时候允许损失部分性能，保证核心功能或者当前最重要的功能可用。允许系统在不同节点的数据副本之间进行数据同步时存在延迟。</p>
+<h2 id="分布式存储算法">分布式存储算法</h2>
+<p>1）一致性算法-Paxos<br>
+解决一个分布式系统如何就某个值达成一致，是一种基于消息传递模型的一致性算法<br>
+2）一致性哈希算法<br>
+通常分布式系统中存储的内容是hash中的一部分，一致性哈希算法解决如何在动态的网络拓扑中分布存储和路由</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git学习笔记]]></title>
+        <id>https://frankyancheng.github.io/git-xue-xi-bi-ji/</id>
+        <link href="https://frankyancheng.github.io/git-xue-xi-bi-ji/">
+        </link>
+        <updated>2022-12-13T12:48:04.000Z</updated>
+        <content type="html"><![CDATA[<p>当前都是使用git进行项目代码的合并，提交等操作，该篇主要是对git进行回顾，来源主要为网上的资料整理以及实践。</p>
+<h1 id="git分支模型">git分支模型</h1>
+<figure data-type="image" tabindex="1"><img src="https://frankyancheng.github.io//post-images/1670935929472.png" alt="" loading="lazy"></figure>
+<p>git主要分为<br>
+1）工作区<br>
+2）本地暂存区<br>
+3）本地仓库<br>
+4）远程仓库</p>
+<h1 id="常见命令">常见命令</h1>
+<h2 id="将文件添加到暂存区">将文件添加到暂存区</h2>
+<p>命令：git add readme.txt</p>
+<h2 id="将文件提交到仓库">将文件提交到仓库</h2>
+<p>命令：git commit –m “readme.txt提交”</p>
+<h2 id="查看提交状态">查看提交状态</h2>
+<p>命令：git status</p>
+<h3 id="无变化时的状态">无变化时的状态</h3>
+<figure data-type="image" tabindex="2"><img src="https://frankyancheng.github.io//post-images/1670936137226.png" alt="" loading="lazy"></figure>
+<h3 id="有变化时的状态修改文件但还未添加到暂存区">有变化时的状态，修改文件，但还未添加到暂存区</h3>
+<figure data-type="image" tabindex="3"><img src="https://frankyancheng.github.io//post-images/1670936197433.png" alt="" loading="lazy"></figure>
+<h2 id="查看变更情况">查看变更情况</h2>
+<p>命令：git diff xxx(文件名称)</p>
+<h3 id="工作区和暂存区的比较">工作区和暂存区的比较</h3>
+<figure data-type="image" tabindex="4"><img src="https://frankyancheng.github.io//post-images/1670936318308.png" alt="" loading="lazy"></figure>
+<h2 id="提交状态">提交状态</h2>
+<p>命令：git log<br>
+<img src="https://frankyancheng.github.io//post-images/1670936429609.png" alt="" loading="lazy"><br>
+查看提交记录的状态信息<br>
+可以使用git log --pretty=oneline的方式查看简易信息<br>
+<img src="https://frankyancheng.github.io//post-images/1670936485886.png" alt="" loading="lazy"></p>
+<h2 id="回退操作">回退操作</h2>
+<p>git reset –-hard HEAD^(回退上一个版本)<br>
+git reset –hard HEAD~n(回退N个版本)<br>
+<img src="https://frankyancheng.github.io//post-images/1670936520273.png" alt="" loading="lazy"></p>
+<h2 id="查看引用">查看引用</h2>
+<p>git reflog<br>
+显示所有的操作记录，包括提交和回退等操作，可以结合git reset –hard xxx进行回滚操作<br>
+<img src="https://frankyancheng.github.io//post-images/1670936860385.png" alt="" loading="lazy"></p>
+<h2 id="git-检出操作">git 检出操作</h2>
+<p>命令： git checkout -- xxxx（文件名称）格式<br>
+1）文件修改后，还没有放到暂存区，使用撤销则回到和原来一样的版本中<br>
+2）已经放入暂存区的，撤销后就回到暂存区的状态</p>
+<h2 id="git-revert操作">git revert操作</h2>
+<p>用一次新的commit回滚之前的commit，git reset是直接删除指定的commit</p>
+<h1 id="分支命令">分支命令</h1>
+<h2 id="检出操作">检出操作</h2>
+<p>命令：git checkout –b dev<br>
+相当于：<br>
+git branch dev<br>
+git checkout dev</p>
+<h2 id="查看当前分支">查看当前分支</h2>
+<p>git branch<br>
+<img src="https://frankyancheng.github.io//post-images/1670937162467.png" alt="" loading="lazy"></p>
+<h2 id="合并分支merge">合并分支merge</h2>
+<p><img src="https://frankyancheng.github.io//post-images/1670937197992.png" alt="" loading="lazy"><br>
+命令： git merge dev<br>
+切换到master分支，通过git merge dev，可以合并dev分支的内容<br>
+<img src="https://frankyancheng.github.io//post-images/1670937260588.png" alt="" loading="lazy"><br>
+合并分支问题最小化的一种方式是执行频繁的合并操作<br>
+<img src="https://frankyancheng.github.io//post-images/1670937293795.png" alt="" loading="lazy"></p>
+<h2 id="合并冲突">合并冲突</h2>
+<p>当两个分支的内容都提交以后，可以进行分支的合并和冲突的解决<br>
+<img src="https://frankyancheng.github.io//post-images/1671352278009.png" alt="" loading="lazy"><br>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD后面的内容为主分支修改的内容</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>fenzhi1表示为fenzhi1上修改的内容</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h2 id="分支策略">分支策略</h2>
+<p>1)master分支一般是非常稳定的，用来发布新版本，一般不允许在上面干活，通过其他分支合并的方式进行<br>
+2)bug分支：每个bug都可以通过一个临时分支来修复，修复完成后，合并分支然后将临时分支删除掉</p>
+<h2 id="工作区隐藏">工作区隐藏</h2>
+<p>命令：git stash<br>
+当开发在进行一部分的时候，需要临时做其他事情，可以通过git stash隐藏当前工作区内容。<br>
+<img src="https://frankyancheng.github.io//post-images/1670937411661.png" alt="" loading="lazy"><br>
+当工作区隐藏后<br>
+<img src="https://frankyancheng.github.io//post-images/1670937464358.png" alt="" loading="lazy"><br>
+也不是存在暂存区中，此时可以通过git stash list来隐藏状态<br>
+<img src="https://frankyancheng.github.io//post-images/1670938449998.png" alt="" loading="lazy"><br>
+1.git stash apply恢复，恢复后，stash内容并不删除，你需要使用命令git stash drop来删除。<br>
+2.另一种方式是使用git stash pop,恢复的同时把stash内容也删除了。</p>
+<h2 id="变基操作">变基操作</h2>
+<h3 id="修改多个commit的提交记录">修改多个commit的提交记录</h3>
+<p>1）示例(合并多个commit)<br>
+<img src="https://frankyancheng.github.io//post-images/1671352398477.png" alt="" loading="lazy"><br>
+使用git rebase –i xxxx（commit编号），此处的编号是合并编号后一个提交的内容开始。<br>
+如想合并alter a的所有内容，则commit提交使用687d080的编号<br>
+<img src="https://frankyancheng.github.io//post-images/1671352430277.png" alt="" loading="lazy"><br>
+将pick修改调整为s<br>
+<img src="https://frankyancheng.github.io//post-images/1671352453831.png" alt="" loading="lazy"><br>
+将后面提交的部分内容注释掉，并修改合并要提交的内容<br>
+<img src="https://frankyancheng.github.io//post-images/1671352500068.png" alt="" loading="lazy"><br>
+修改合并后的commit内容</p>
+<p>2）示例（修改commit分支内容）<br>
+同样的，使用git rebase –i xxxx（commit编号）<br>
+<img src="https://frankyancheng.github.io//post-images/1671352530634.png" alt="" loading="lazy"><br>
+弹出窗体中修改提交内容<br>
+<img src="https://frankyancheng.github.io//post-images/1671352551805.png" alt="" loading="lazy"><br>
+修改后的提交记录如下：<br>
+<img src="https://frankyancheng.github.io//post-images/1671352605911.png" alt="" loading="lazy"></p>
+<h3 id="合并分支策略">合并分支策略</h3>
+<p>1）使用merge的情况<br>
+merge会保留所有分支的commit内容,并且在merge的时候会生成一个新的提交<br>
+<img src="https://frankyancheng.github.io//post-images/1671352676440.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1671352698527.png" alt="" loading="lazy"></p>
+<p>2）rebase<br>
+只对尚未推送或未分享给别人的本地分支修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作。<br>
+<img src="https://frankyancheng.github.io//post-images/1671352791878.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1671352798512.png" alt="" loading="lazy"><br>
+Rebase有一个缺点是拉取分支的时候不知道基地是从哪里出来的。变基以后顺序提交顺序会比较乱。一般使用merge进行操作</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[计算机网络基础知识拓扑]]></title>
+        <id>https://frankyancheng.github.io/ji-suan-ji-wang-luo-ji-chu-zhi-shi-tuo-bu/</id>
+        <link href="https://frankyancheng.github.io/ji-suan-ji-wang-luo-ji-chu-zhi-shi-tuo-bu/">
+        </link>
+        <updated>2022-12-13T12:42:08.000Z</updated>
+        <content type="html"><![CDATA[<p>最近回顾了一下计算机网络，整理了一下知识拓扑<br>
+<img src="https://frankyancheng.github.io//post-images/1670935369038.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mysql索引中的数据结构]]></title>
+        <id>https://frankyancheng.github.io/mysql-suo-yin-zhong-de-shu-ju-jie-gou/</id>
+        <link href="https://frankyancheng.github.io/mysql-suo-yin-zhong-de-shu-ju-jie-gou/">
+        </link>
+        <updated>2022-11-13T08:54:07.000Z</updated>
+        <summary type="html"><![CDATA[<p>索引是用空间换时间的操作，索引一般是通过建立额外的数据结构来实现的，适当的索引有益于加快查询速度，但过多的索引也容易导致频繁更新索引数据结构而带来的时间花销。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>索引是用空间换时间的操作，索引一般是通过建立额外的数据结构来实现的，适当的索引有益于加快查询速度，但过多的索引也容易导致频繁更新索引数据结构而带来的时间花销。</p>
+<!-- more -->
+<p>索引的优点：<br>
+1）使用唯一索引，可保证数据库表中每一行数据的唯一性<br>
+2）加快数据的查询速度，表的排序分组查询速度，加快表之间的连接<br>
+索引的劣势：<br>
+1）创建索引和维护索引需要耗费时间，数据量增加耗费的时间也会增加<br>
+2）索引需要占磁盘空间<br>
+3）对表进行操作的时候，索引也需要动态的进行维护</p>
+<p>索引可以分为很多类型：</p>
+<!-- more -->
+<h1 id="普通索引">普通索引</h1>
+<p><img src="https://frankyancheng.github.io//post-images/1668329951726.png" alt="" loading="lazy"><br>
+普通索引可重复，唯一索引不可重复，普通索引是非聚簇索引，会涉及到回表的操作<br>
+<img src="https://frankyancheng.github.io//post-images/1668330026213.png" alt="" loading="lazy"><br>
+如果主键的长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小</p>
+<h1 id="唯一索引">唯一索引</h1>
+<p>不允许具有索引值相同的行，系统在创建该索引的时候检查是否有重复的键值，并在每次使用INSERT语句或者UPDATE语句添加数据时候进行检查。创建唯一索引的目的不是为了提高访问速度，只是为了避免数据出现重复。<br>
+注：主键和唯一索引的区别<br>
+一张表只可以有一个主键，但是可以有多个唯一索引，多个唯一索引可以有一个记录为null。<br>
+<img src="https://frankyancheng.github.io//post-images/1668330079655.png" alt="" loading="lazy"></p>
+<h1 id="单列索引和组合索引">单列索引和组合索引</h1>
+<p>单列索引是一个索引只包含单个列，一个表可以有多个单列索引<br>
+<img src="https://frankyancheng.github.io//post-images/1668330202116.png" alt="" loading="lazy"><br>
+组合索引是在表的多个字段组合上创建索引，只有在查询条件中使用这些字段的左边字段索引才会使用，遵循最左前缀集合。<br>
+<img src="https://frankyancheng.github.io//post-images/1668330230573.png" alt="" loading="lazy"><br>
+<img src="https://frankyancheng.github.io//post-images/1668330268021.png" alt="" loading="lazy"><br>
+Mysql在查询的时候也只能使用一个索引，虽然有两个索引，但不能同时用上，只能选择最优的那个索引。</p>
+<h1 id="全文索引">全文索引</h1>
+<p>在定义索引的列上支持全文查找，只有MyISAM引擎支持全文索引，Mysql 8.0默认是InnoDB,需要更改表结构<br>
+<img src="https://frankyancheng.github.io//post-images/1668330313031.png" alt="" loading="lazy"><br>
+全文索引是为了解决需要基于相似度的查询，而不是精确数值比较。全文索引只能用于InnoDB或者MyISAM表，只能为CHAR、VARCHAR、TEXT列创建。<br>
+全文索引的限制：<br>
+1）全文索引是一个利用磁盘空间换取性能的方法<br>
+2）全文索引创建速度慢，而且对全文索引的各种数据修改操作也慢<br>
+3）区分表不支持全文搜索<br>
+4）由多列组合而成的全文检索的索引必须使用相同的字符集和排序规则<br>
+5）全文索引存在精度问题</p>
+<h1 id="聚簇索引和非聚簇索引">聚簇索引和非聚簇索引</h1>
+<p><img src="https://frankyancheng.github.io//post-images/1668330418128.png" alt="" loading="lazy"><br>
+InnoDB的聚簇索引</p>
+<p><img src="https://frankyancheng.github.io//post-images/1668330452413.png" alt="" loading="lazy"><br>
+MyISAM的非聚簇索引<br>
+(MyISAM索引占用的空间小，对一些大数据量的排序和全表扫描、统计，使用MyISAM的优势会更大一些)</p>
+<p>A）聚簇索引优势<br>
+查询速度更快，主键和行数据是放在同一行中的，找到叶子节点就可以立即将行数据返回。<br>
+减少了辅助索引的数据页分裂时候的维护工作（使用主键作为指针不使用地址值作为指针）<br>
+只需要从磁盘读取少量的数据页就能获取信息<br>
+B) 聚簇索引劣势<br>
+维护索引昂贵，如果使用UUID作为主键，是的数据存储稀疏，会出现聚簇索引很慢的情况</p>
+<h2 id="索引使用的注意事项">索引使用的注意事项</h2>
+<p>1）字段使用函数，将不能用到索引<br>
+2）注意某些字段无引号导致的全表扫描</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Redis中的一些数据结构]]></title>
+        <id>https://frankyancheng.github.io/redis-zhong-de-yi-xie-shu-ju-jie-gou/</id>
+        <link href="https://frankyancheng.github.io/redis-zhong-de-yi-xie-shu-ju-jie-gou/">
+        </link>
+        <updated>2022-11-13T08:24:43.000Z</updated>
+        <summary type="html"><![CDATA[<p>Redis中的很多结构也是和Java中应用的数据结构类似，以下是整理Redis看过的一些资料整理的笔记。供学习参考。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Redis中的很多结构也是和Java中应用的数据结构类似，以下是整理Redis看过的一些资料整理的笔记。供学习参考。</p>
+<!-- more -->
+<p><img src="https://frankyancheng.github.io//post-images/1668328027600.png" alt="" loading="lazy"><br>
+以下逐一梳理类型进行说明</p>
+<!-- more -->
+<h1 id="string类型">String类型</h1>
+<p>是redis中最基本的类型，一个key对应一个value。类型是二进制安全的，redis的String可以包含任何数据。（SET和GET以及其他）。String采用简单动态字符串（simple dynamic string），简称SDS。作为Redis默认的字符串表示。Redis作为内存型数据库定位是追求性能，传统的C字符串不能满足苛刻的性能下的要求。<br>
+<img src="https://frankyancheng.github.io//post-images/1668328205527.png" alt="" loading="lazy"><br>
+1）C语言中的C字符串不记录自身长度，在对字符串进行操作的时候容易带来缓冲区溢出。<br>
+2）减少因为修改字符串带来的内存重分配次数，C语言字符串在指向操作前需要通过内存重分配来扩展底层数组的空间大小。是一个比较耗时的操作。<br>
+在Redis中使用get和set命令即可。<br>
+<img src="https://frankyancheng.github.io//post-images/1668328237346.png" alt="" loading="lazy"><br>
+SDS内存操作实现空间预分配和惰性空间是否的两种优化策略：<br>
+1）空间预分配<br>
+通过提前检查未使用的空间是否足够，通过该方式减少连续字符串增长所需要的内存重分配次数。<br>
+2）惰性空间释放<br>
+当SDS的API需要缩短SDS保存的字符串时，并不立即回收，而是把缩短后的长度记录在len属性中，剩余空间用于未来扩展字符串用。</p>
+<h2 id="setbit的位操作">Setbit的位操作</h2>
+<p>二进制的比特运算可以极大程度的节省空间，例如可以作为大用户量的是否登录统计，以及使用位运算进行用户量的或和与运算。<br>
+Setbit a 1 1<br>
+Setbit a 2 1</p>
+<h2 id="setex命令">SETEX命令</h2>
+<p>SETEX是SET和EXPIRE的运算的组合，通过该命令实现原子性操作。可以在同一时间内完成设置值和设置过期时间操作。在用于缓存的时候非常实用。（设置的时间默认使用毫秒）<br>
+SETEX key seconds value<br>
+TTL Key(通过该方式查看key的剩余时间)</p>
+<h1 id="哈希类型">哈希类型</h1>
+<h2 id="数据结构">数据结构</h2>
+<p>是一个String类型的键值对集合，可以看作是Key、Value存储的MAP容器。<br>
+<img src="https://frankyancheng.github.io//post-images/1668328359872.png" alt="" loading="lazy"></p>
+<h2 id="常见命令">常见命令</h2>
+<p>HMSET:设置Key值的Key，Value键值对<br>
+HMGET：获得Key值对应的Key,Value键值对<br>
+HDEL：删除一个或多个指定Key值得字段<br>
+HSCAN：遍历迭代哈希表中的键值对</p>
+<h1 id="list类型">List类型</h1>
+<p>是一个双向链表，按照插入顺序排序的字符串列表，可以在列表的头部或者尾部添加元素，可以包含超过40亿个元素。可以充当栈或队列的角色。</p>
+<h2 id="数据结构-2">数据结构</h2>
+<p><img src="https://frankyancheng.github.io//post-images/1668328490457.png" alt="" loading="lazy"><br>
+在Redis 3.2版本以前<br>
+1）当元素个数小于512个（默认情况），同时列表中每个元素的值都小于list-max-ziplist-value配置的时候，采用ziplist作为列表的内部实现来减少内存使用<br>
+2）当ziplist无法满足条件的时候，会采用linkedlist作为列表的内部实现（双向列表的格式实现，但是链表的复杂空间过高，每个节点的内存都是单独分配的，会加剧内存碎片化影响内存的管理效率）<br>
+注：<br>
+Ziplist的实现方式：<br>
+通过给每个节点添加length属性实现，是为了节约内存开发的，由一些列特殊编码的连续内存块组成的顺序型数据结构。<br>
+<img src="https://frankyancheng.github.io//post-images/1668328662366.png" alt="" loading="lazy"><br>
+Quicklist是zipList和linkedList的混合体，每一个段使用zipList来紧凑存储，多个zipList之间使用双向指针串接起来。</p>
+<h2 id="常见命令-2">常见命令</h2>
+<p>BLPOP：移除并获取列表的第一个元素<br>
+BRPOP：移除并获取列表的最后一个元素<br>
+LPOP：移除并获取列表的第一个元素<br>
+LPUSH：将一个或多个值插入到列表的头部</p>
+<h1 id="set集合">Set集合</h1>
+<p>是String类型的无序集合，集合内容是唯一的。</p>
+<h2 id="数据结构-3">数据结构</h2>
+<figure data-type="image" tabindex="1"><img src="https://frankyancheng.github.io//post-images/1668328730816.png" alt="" loading="lazy"></figure>
+<h2 id="整数集合">整数集合</h2>
+<p>当集合对象的所有元素都是整数值，并且保存的元素数量小于512个时，使用整数集合。而且是有序的集合，通过二分查找来实现查询。</p>
+<h2 id="hashtable">Hashtable</h2>
+<p>当不满足整数集合的条件的时候，使用hashtable进行处理</p>
+<h2 id="应用场景">应用场景</h2>
+<p>Set集合的复杂度是O(1),支持集合内的增删改查，支持多个集合的交集、并集、差集操作。<br>
+1）标签应用，根据标签将数据进行拆分<br>
+2）独立IP，使用唯一性保证IP的独立性</p>
+<h2 id="常见命令-3">常见命令</h2>
+<p>SADD:向集合中添加一个或多个元素<br>
+SADD KEY VALUE<br>
+SCARD:获取集合的成员数</p>
+<h1 id="zset有序集合">ZSet有序集合</h1>
+<p>可以输入分值，对集合内容进行排序。Redis通过分数来为集合中的成员进行从小到大的排序。</p>
+<p><img src="https://frankyancheng.github.io//post-images/1668328893952.png" alt="" loading="lazy"><br>
+通过跳表，增加了数据查询的速度。基于单链表添加索引的方式实现，是以空间换时间的方式提升查询速度。</p>
+<h2 id="常见命令-4">常见命令</h2>
+<p>zadd key score value</p>
+<h2 id="应用场景-2">应用场景</h2>
+<p>用于排行榜成绩和带权重的消息队列</p>
+<h1 id="hyperloglog">HyperLogLog</h1>
+<p>在误差范围内，对数据得基数（不重复元素的个数）进行统计（通过概率论的方式进行计算）。在输入元素的数量或者体积非常大的时候，计算基数所需的空间是固定，并且是很小的。每个键值只需要花费12KB内存，可以计算接近2的64次方个不同元素的基数。（只存个数，不存元素本身）。</p>
+<h2 id="数据结构-4">数据结构</h2>
+<p>在输入元素的数量或者体积非常大时，计算基数所需要的空间总是固定、并且是很小的。通过桶结构（使用二进制数来代表）+稀疏矩阵的方式实现。</p>
+<h2 id="常见命令-5">常见命令</h2>
+<p>PFADD:添加指定元素到HyperLogLog中<br>
+PFCOUNT：返回给定HyperLogLog的基数估算值<br>
+PFMERGE：将多个HyperLogLog合并为一个HyperLogLog</p>
+<h1 id="布隆过滤器">布隆过滤器</h1>
+<p>相对于Set集合的去重功能，布隆过滤器可以在空间上节省90%以上，但是有1%左右的误判率。<br>
+<img src="https://frankyancheng.github.io//post-images/1668329020967.png" alt="" loading="lazy"><br>
+通过多次哈希值进行了判断，如果哈希对应的key值都是标记为1，则说明元素存在。</p>
+<h1 id="地理位置">地理位置</h1>
+<p>主要用来存储地理位置信息，并对存储的信息进行操作</p>
+<h2 id="181常见命令">1.8.1.常见命令</h2>
+<p>GEOADD：添加地理位置<br>
+GEOPOS: 从给定的key里返回所有指定名称的位置<br>
+GETODIST：用于返回两个给定位置之间的距离</p>
+]]></content>
+    </entry>
+</feed>

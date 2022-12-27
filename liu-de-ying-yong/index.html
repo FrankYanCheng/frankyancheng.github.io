@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>“流”的应用 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="黄河之水天上来，奔流到海不复回。Java中的流好比是河水，取值无尽，用之无竭，流是无尽的，我们通过流生成的元素进行复杂的计算。这里主要是记录一下使用方式，我们可以通过常用的数据结构创建流，并对数据进行筛选过滤，数据映射处理，后再进行数据的匹..." />
+    <meta name="keywords" content="Java" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">“流”的应用</h2>
+            <div class="post-date">2022-11-06</div>
+            
+            <div class="post-content" v-pre>
+              <p>黄河之水天上来，奔流到海不复回。Java中的流好比是河水，取值无尽，用之无竭，流是无尽的，我们通过流生成的元素进行复杂的计算。这里主要是记录一下使用方式，我们可以通过常用的数据结构创建流，并对数据进行筛选过滤，数据映射处理，后再进行数据的匹配输出，和通过使用for循环、调用函数方法等方式相比，该方式操作更加简洁、高效。</p>
+<h2 id="流的创建">流的创建</h2>
+<p>我们可以通过集合、数组、字符串、文件流等方式创建流。</p>
+<h3 id="集合创建方式">集合创建方式</h3>
+<p>通过Collection下的stream()和parallelStream()方法<br>
+🏳️‍🌈示例如下：<br>
+List<String> list = new ArrayList&lt;&gt;();<br>
+Stream<String> stringStream = list.stream();<br>
+Stream<String> parallelStream = list.parallelStream();</p>
+<h3 id="数组创建方式">数组创建方式</h3>
+<p>🏳️‍🌈示例如下<br>
+Integer[] nums = new Integer[10];<br>
+Stream<Integer> stream = Arrays.stream(nums);</p>
+<h3 id="stream中的静态方法">Stream中的静态方法</h3>
+<p>使用of方法<br>
+Stream<Integer> stream = Stream.of(1,2,3,4,5);<br>
+使用iterate方法<br>
+Stream<Integer> stream2 = Stream.iterate(0,(x)-&gt;x+2).limit(6);<br>
+使用generate方法<br>
+Stream<Double> stream3 = Stream.generate(Math::random).limit(2);</p>
+<h3 id="文件流的创建方式">文件流的创建方式</h3>
+<p>使用BufferedReader.lines() 中的静态方法<br>
+BufferedReader reader = new BufferedReader(new FileReader(&quot;F:\test_stream.txt&quot;));<br>
+Stream<String> lineStream = reader.lines();<br>
+lineStream.forEach(System.out::println);</p>
+<h3 id="字符串方式创建流">字符串方式创建流</h3>
+<p>使用Pattern.splitAsStream()方法，将字符串分割成流<br>
+Pattern pattern = Pattern.compile(&quot;,&quot;);<br>
+Stream<String> stringStream = pattern.splitAsStream(&quot;a,b,c,d&quot;);<br>
+stringStream.forEach(System.out::println);</p>
+<h2 id="流的中间操作">流的中间操作</h2>
+<p>将数据结构转换为流，我们可以对流上的数据进行处理，处理方式包括数据筛选，排序，以及通过函数进行映射操作。个人觉得这也是流的好处之一，通过该方式简化了很多冗余的代码编写。</p>
+<h3 id="筛选与切片">筛选与切片</h3>
+<p>通过该方式实现简单的数据操作</p>
+<h4 id="过滤filter">过滤（filter）</h4>
+<p>Stream<Integer> stream = Stream.of(6, 4, 6, 7, 3, 9, 8, 10, 12, 14, 14);<br>
+Stream newStream = stream.filter(s-&gt;s&gt;5);<br>
+newStream.forEach(System.out::println);</p>
+<h4 id="去重distinct">去重（distinct）</h4>
+<p>Stream<Integer> stream = Stream.of(6, 4, 6, 7, 3, 9, 8, 10, 12, 14, 14);<br>
+Stream newStream = stream.distinct();<br>
+newStream.forEach(System.out::println);</p>
+<h4 id="获取n个元素">获取n个元素</h4>
+<p>Stream<Integer> stream = Stream.of(6, 4, 6, 7, 3, 9, 8, 10, 12, 14, 14);<br>
+Stream newStream = stream.limit(3);<br>
+newStream.forEach(System.out::println);</p>
+<h4 id="跳过n个元素">跳过n个元素</h4>
+<p>Stream<Integer> stream = Stream.of(6, 4, 6, 7, 3, 9, 8, 10, 12, 14, 14);<br>
+Stream newStream = stream.skip(3);<br>
+newStream.forEach(System.out::println);</p>
+<h3 id="映射">映射</h3>
+<p>通过流进行函数映射转换。</p>
+<h4 id="map">Map</h4>
+<p>map：接收一个函数作为参数，该函数将映射到每一个元素上，将其映射成为一个新的元素<br>
+List<String> list = Arrays.asList(&quot;a,b,c&quot;,&quot;1,2,3&quot;);<br>
+Stream<String> s1 = list.stream().map(s-&gt;s.replaceAll(&quot;,&quot;,&quot;&quot;));<br>
+s1.forEach(System.out::println);</p>
+<h4 id="peek">Peek</h4>
+<p>Peek：如同map,但是没有返回值<br>
+Student s1 = new Student(&quot;aa&quot;, 10);<br>
+Student s2 = new Student(&quot;bb&quot;, 20);<br>
+List<Student> studentList = Arrays.asList(s1, s2);</p>
+<p>studentList.stream() .peek(o -&gt; o.setAge(100)).forEach(System.out::println);<br>
+//结果：<br>
+Student{name='aa', age=100}<br>
+Student{name='bb', age=100}</p>
+<h3 id="flatmap">flatMap</h3>
+<p>flatMap：接受一个函数作为参数，将流中的每个值都换成另一个流，并将所有的流连接<br>
+List<String> list = Arrays.asList(&quot;a,b,c&quot;,&quot;1,2,3&quot;);<br>
+Stream s4 = list.stream().flatMap(s-&gt;{String[] split = s.split(&quot;,&quot;)  Stream<String> s2 = Arrays.stream(split);<br>
+return s2; });<br>
+s4.forEach(System.out::println);</p>
+<h3 id="排序">排序</h3>
+<p>通过流实现数据结构的排序</p>
+<h4 id="自然排序">自然排序</h4>
+<p>自然排序，流中的元素需要实现Comparable接口<br>
+List<String> list = Arrays.asList(&quot;aa&quot;,&quot;ff&quot;,&quot;dd&quot;);<br>
+list.stream().sorted().forEach(System.out::println);</p>
+<h4 id="定制排序">定制排序</h4>
+<p>定制排序，自定义Comparator排序器<br>
+Student s1 = new Student(&quot;aa&quot;, 10);<br>
+Student s2 = new Student(&quot;bb&quot;, 20);<br>
+Student s3 = new Student(&quot;aa&quot;, 30);<br>
+Student s4 = new Student(&quot;dd&quot;, 40);<br>
+List<Student> studentList = Arrays.asList(s1, s2, s3, s4);<br>
+//自定义排序：先按姓名升序，姓名相同则按年龄升序<br>
+studentList.stream().sorted(<br>
+(o1, o2) -&gt; {<br>
+if (o1.getName().equals(o2.getName())) {<br>
+return o1.getAge() - o2.getAge();<br>
+} else {<br>
+return o1.getName().compareTo(o2.getName());<br>
+}<br>
+}<br>
+).forEach(System.out::println);</p>
+<h2 id="流的终止操作">流的终止操作</h2>
+<p>通过流进行了数据的中间操作后，需要通过流进行匹配输出</p>
+<h3 id="匹配操作">匹配操作</h3>
+<p>allMatch：接收一个 Predicate 函数，当流中每个元素都符合该断言时才返回true，否则返回false<br>
+noneMatch：接收一个 Predicate 函数，当流中每个元素都不符合该断言时才返回true，否则返回false<br>
+anyMatch：接收一个 Predicate 函数，只要流中有一个元素满足该断言则返回true，否则返回false</p>
+<h3 id="聚合操作">聚合操作</h3>
+<p>findFirst：返回流中第一个元素<br>
+findAny：返回流中的任意元素<br>
+count：返回流中元素的总个数<br>
+max：返回流中元素最大值<br>
+min：返回流中元素最小值</p>
+<h3 id="规约操作">规约操作</h3>
+<p>相当于是循环操作执行，如1，2，3，4，5.则为1+2，3+3，6+4.....</p>
+<h3 id="收集操作">收集操作</h3>
+<p>接收一个Collector实例，将流中元素收集成另外一个数据结构<br>
+//装成list<br>
+List<Integer> ageList = list.stream().map(Student::getAge).collect(Collectors.toList()); // [10, 20, 10]</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/shu-ju-jie-gou-zhi-shi-tu-pu-zheng-li/">
+                  <h3 class="post-title">
+                    数据结构知识图谱整理
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

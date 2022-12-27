@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机对象 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="对象的创建
+类对象的加载
+检查符号引用代表的类是否已被加载、解析和初始化，如果没有则执行类加载过程。
+为新生对象分配内存
+对象所需内存的大小在类加载完成后便可完全确定。为对象分配空间的任务实际等同于把一块确定大小的内存块从Java堆中划分出..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机对象</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="对象的创建">对象的创建</h1>
+<h2 id="类对象的加载">类对象的加载</h2>
+<p>检查符号引用代表的类是否已被加载、解析和初始化，如果没有则执行类加载过程。</p>
+<h2 id="为新生对象分配内存">为新生对象分配内存</h2>
+<p>对象所需内存的大小在类加载完成后便可完全确定。为对象分配空间的任务实际等同于把一块确定大小的内存块从Java堆中划分出来。创建对象的时候，根据Java堆是否规整，采用“指针碰撞”(不规整)、或“空闲列表”(规整)。根据GC收集器类型而定。虚拟机也会在对象的对象头中，设置对象的信息。<br>
+【如果在并发情况下，地址是可能会出现问题的，这个时候采用CAS乐观锁、或者本地线程分配缓冲TLB（每个线程在堆中分配缓存，分配新的缓存区才需要同步锁定）。】</p>
+<h2 id="对象初始化">对象初始化</h2>
+<p>new指令之后执行<init>()方法，按照程序意愿和对象进行初始化。这样一个真正可用的对象才算被构造出来。</p>
+<h1 id="对象的内存布局">对象的内存布局</h1>
+<p>HotSpot虚拟机对象的头对象包括两类：<br>
+1）用于存储对象自身运行时的数据，包括哈希码、GC分代年龄等<br>
+2）类型指针，对象指向它的类型元数据的指针，通过该指针确定该对象是哪个类的实例<br>
+3）对象真正存储的有效信息，即在程序代码里所定义的各种类型的字段内容。<br>
+4）对齐补充，起着占位符的作用。</p>
+<h1 id="对象的访问定位">对象的访问定位</h1>
+<p>程序通过栈上的引用数据来操作堆上的具体对象。主流的访问方式包括使用句柄和直接指针的方式。<br>
+1）句柄访问：Java堆中划分一块内存出来作为句柄池，栈中存储的是对象的句柄地址。好处是引用中存储的是稳定的句柄地址，在对象被移动时只会改变实例数据的指针（栈的引用不变）<br>
+2）直接指针访问：Java堆中的对象内存布局，引用中存储的直接就是对象的地址。（减少了一次指针定位的开销，对象访问频繁，积少成多也是成本）。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-nei-cun-qu-yu-he-chang-jian-wen-ti/">
+                  <h3 class="post-title">
+                    Java虚拟机内存区域和常见问题
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

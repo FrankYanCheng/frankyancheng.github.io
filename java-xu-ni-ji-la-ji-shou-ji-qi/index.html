@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机垃圾收集器 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="经典垃圾收集器
+Serial（串行）收集器
+是一个单线程工作的收集器，且在垃圾收集时，会停止所有其他工作线程，直到它结束。简单而高效（没有线程交互的开销），对于内存资源受限的环境，是所有收集器里面额外内存消耗最小的。在用户桌面应用场景和微服..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机垃圾收集器</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="经典垃圾收集器">经典垃圾收集器</h1>
+<h2 id="serial串行收集器">Serial（串行）收集器</h2>
+<p>是一个单线程工作的收集器，且在垃圾收集时，会停止所有其他工作线程，直到它结束。简单而高效（没有线程交互的开销），对于内存资源受限的环境，是所有收集器里面额外内存消耗最小的。在用户桌面应用场景和微服务应用中使用较多，分配给虚拟机管理的内存一般来说也不会特别大。【用时间换了空间，在新生代收集，一般不超过100毫秒，对用户是可以接受的】</p>
+<h2 id="parnew收集器">ParNew收集器</h2>
+<p>是Serial收集器的多线程并行版本，是JDK7之前的遗留系统中首选的新生代收集器。（CMS的老年代收集器，只能选择新生代收集器的ParNew或者Serial收集器中的一个）。在JDK9后不再是推荐方案。（首次实现垃圾收集线程与用户线程同时工作）</p>
+<h2 id="parallel-scavenge收集器">Parallel Scavenge收集器</h2>
+<p>新生代收集器，基于标记-复制算法实现的多线程并行收集器。主要关注的是达到一个可控制的吞吐量。主要适合在后台运算而不需要太多交互的分析任务。可设置最大垃圾收集停顿时间以及吞吐量大小、垃圾收集速度（是要以牺牲吞吐量和新生代空间为代价换取的）。可以使用默认的自适应调节策略（区别于ParNew收集器的主要的一个特征）。</p>
+<h2 id="serial-old收集器">Serial Old收集器</h2>
+<p>是Serial收集器的老年代版本，是单线程收集器，使用标记-整理算法实现。</p>
+<h2 id="parallel-old收集器">Parallel Old收集器</h2>
+<p>是Parallel Scavenge收集器的老年代版本，支持多线程并发，基于标记-整理算法实现。在注重吞吐量或者处理器资源较为稀缺的场合优先考虑。</p>
+<h2 id="cms收集器">CMS收集器</h2>
+<p>【并发收集，低停顿】CMS收集器是一种以获取最短回收停顿时间为目标的收集器。通常用于比较关注服务的响应速度，很大一部分Java应用集中在互联网网站或者基于浏览器的B/S系统的服务端上，希望系统停顿时间尽可能短的情况。采用标记清除算法实现。</p>
+<h3 id="初始标记">初始标记</h3>
+<p>标记GC Roots可以直接关联到的对象，速度很快，会造成Stop the world</p>
+<h3 id="并发标记">并发标记</h3>
+<p>不需要停顿用户线程，从GC Roots开始遍历整个图的过程。</p>
+<h3 id="重新标记">重新标记</h3>
+<p>为了修正并发标记期间，因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录。比初始化阶段稍长，比并发阶段时间更短。</p>
+<h3 id="清除标记">清除标记</h3>
+<p>清理删除标记阶段判断的已经死亡的对象，可以与用户线程同时并发的</p>
+<h3 id="cms的缺点">CMS的缺点</h3>
+<p>1）由于注重并发性，对处理器的资源非常敏感，特别是针对CPU核数较小的情况时，会占用较多的线程数量。CMS的快速并发收集，是通过消耗资源换来的。<br>
+2）无法处理处于并发标记和清除标记阶段的浮动垃圾。<br>
+3）需要预留足够的内存空间提供给用户线程（供并发时的程序运行使用）。<br>
+如果在收集后，预留的内存满足不了用户的需要，会导致“并发失败”，冻结用户线程的执行后，将临时启动Serial收集器进行老年代的垃圾收集，停顿的时间会比较长。<br>
+4）基于“标记-清除”算法实现的收集器，当空间碎片过多，且有大对象分配当前对象时，不得不提前出发一次Full GC。</p>
+<h2 id="garbage-first收集器">Garbage First收集器</h2>
+<p>G1,是垃圾收集器技术发展历史上的里程碑，开创了面向局部收集的设计思路和基于Region的内存布局形式。在JDK9后，成为服务端模式下的默认垃圾收集器。在长度为M毫秒内，消耗在垃圾收集上的时间大概率不超过N毫秒。<br>
+Maxied GC模式：可以面向堆内存的任何部分进行回收，看哪部分的回收效益最大。<br>
+基于堆内存布局：把堆划分为多个大小相等的独立区域，每个区域根据需要扮演不同的空间。使用Humongous专门用来存储大对象。G1将基于Region作为单次回收的最小单元，每次根据优先级回收效益最大的那些Region.<br>
+但是G1的内存占用或者程序运行过程中的额外执行负载都比CMS要更高。<br>
+从G1开始，最先进的垃圾收集器的设计导向都不约而同的变为追求能够应付应用的内存分配速率，而不是将Java堆清理干净。</p>
+<h3 id="初始标记-2">初始标记</h3>
+<p>标记一下GC Roots能够直接关联到的对象，耗时很短。</p>
+<h3 id="并发标记-2">并发标记</h3>
+<p>可与用户程序并发执行，从GC Root开始对堆中的对象进行可达性分析。</p>
+<h3 id="最终标记">最终标记</h3>
+<p>对用户线程做一个短暂的暂停，用于处理并发阶段结束后仍然遗留下来的最后少量的STAB记录。</p>
+<h3 id="筛选回收">筛选回收</h3>
+<p>负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，涉及的对象移动，必须暂停用户线程。</p>
+<h2 id="低延迟垃圾收集器">低延迟垃圾收集器</h2>
+<p>垃圾收集器是在内存占用、吞吐量和延迟这三者之间进行平衡的。【延迟是最被重视的一个指标】</p>
+<h3 id="shenandoah收集器">Shenandoah收集器</h3>
+<p>目标是实现一种能在任何堆内存大小下都可以把垃圾收集的停顿时间限制在十毫秒以内的垃圾收集器。<br>
+也是基于Shenandoah也是使用基于Region的堆内存布局，使用并发的整理算法，摒弃了在G1中耗费大量内存和计算资源的记忆集，使用“连接矩阵”的全局数据结构来记录引用关系。</p>
+<h3 id="zgc收集器">ZGC收集器</h3>
+<p>由Oracle研发，希望在尽可能对吞吐量影像不太大的情况下，实现任意堆内存大小下可以把垃圾收集的停顿时间限制在十毫秒以内的低延迟。也是用Region,区别在于内存空间具有动态性，容量也是动态的。<br>
+垃圾收集器的选择应该从吞吐量、基础设施、JDK版本等进行判断。</p>
+<h1 id="垃圾收集器比较">垃圾收集器比较</h1>
+<p>收集器	使用算法<br>
+Serial New收集器	复制算法<br>
+Parallel New（并行）收集器	新生代采用复制算法，老年代采用标记整理<br>
+Parallel Scavenge(并行)收集器	针对新生代，采用复制收集算法<br>
+Serial Old（串行）收集器	新生代采用复制，老年代采用标记整理算法<br>
+Parallel Old(并行)收集器	针对老年代，采用标记整理<br>
+CMS	标记清理<br>
+G1收集器	整体标记整理，局部标记复制</p>
+<h1 id="开发中的注意事项">开发中的注意事项</h1>
+<p>1）在写程序的时候应避免朝生夕灭的短命大对象，在分配空间的时候，需要获取足够的连续空间才能存放，有高额的内存复制开销。可能会出现大对象直接复制到了老年代的情况。控制Full GC频率的关键是老年代的相对稳定，大多数对象的生存时间不应该太长。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-la-ji-hui-shou-suan-fa/">
+                  <h3 class="post-title">
+                    Java虚拟机垃圾回收算法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

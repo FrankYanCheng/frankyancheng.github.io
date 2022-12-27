@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机类文件结构和虚拟机加载机制 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="类文件结构
+平台无关性
+Java虚拟机上不是只运行Java，如今的Kotlin、JPython、Scala也都是运行在Java虚拟机上的。可以实现无关性的原因是虚拟机和Class文件的关联，而不是特定的Java代码。
+文件结构
+1）Clas..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机类文件结构和虚拟机加载机制</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="类文件结构">类文件结构</h1>
+<h2 id="平台无关性">平台无关性</h2>
+<p>Java虚拟机上不是只运行Java，如今的Kotlin、JPython、Scala也都是运行在Java虚拟机上的。可以实现无关性的原因是虚拟机和Class文件的关联，而不是特定的Java代码。</p>
+<h2 id="文件结构">文件结构</h2>
+<p>1）Class文件是按照一组8个字节为基础单位的二进制流（按照8个字节方式进行存储）<br>
+2）Class文件采用类似于C语言的伪结构来存储数据，只有“无符号数”和“表”两种数据类型。<br>
+a)无符号数：基本数据类型，使用u1、u2、u4、u8(数字代表不同字节)，可以用来描述值<br>
+b)表：由多个无符号数或其他表作为数据项构成的复合数据类型。<br>
+3）魔数：使用魔数进行身份识别，开头四个字节为0Xcafebabe（表示为Class文件）。紧接着的4个魔数代表Class文件的版本号。<br>
+4）常量池：是Class文件中第一个出现的表类型数据项目。主要存储字面量和无符号引用。常量池中每一个常量都是一个表。<br>
+5）访问标志：用于识别一些类或者接口层次的访问信息，如Class是类、接口、定义是否为public等。<br>
+6）类索引：类索引和父类索引、接口索引集合是一组u2类型的数据集合。由这些确定该类型的继承关系。<br>
+7）字段表：描述接口或者类中声明的变量。<br>
+8）方法表集合：包括访问标志、名称索引、描述索引、属性表集合项</p>
+<h2 id="字节码指令">字节码指令</h2>
+<p>虚拟机的指令由一个字节长度的，代表某种特定操作含义的数字，和跟随其后的零至多个代表此操作所需的参数构成。<br>
+1）操作码长度最多不超过256条。<br>
+2）放弃了编译后代码的操作长度对齐，损失了一些性能，可以节省大量的填充和间隔符号。</p>
+<h1 id="类加载机制">类加载机制</h1>
+<p>类的加载、连接和初始化过程都是在程序运行期间完成的，为Java应用提供了极高的扩展性和灵活性。</p>
+<h2 id="类加载时机">类加载时机</h2>
+<p>一个类型从被加载到虚拟机内存开始，到卸载出内存之外，生命周期会经历“加载（在类初始化的时候）、验证、准备、解析、初始化、使用、卸载”七个步骤。</p>
+<h2 id="类加载过程">类加载过程</h2>
+<h3 id="加载">加载</h3>
+<p>1）通过一个类的全限定名来获取定义此类的二进制字节流（可以从各个地方获取）<br>
+2）将字节流所代表的静态存储结构转化为方法区的运行时数据结构<br>
+3）在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的数据访问入口</p>
+<h3 id="验证">验证</h3>
+<p>确保Class文件的字节流中包含的信息符合约束规范，代码运行后不会损害虚拟机自身的安全。【从代码量和耗费的执行性能的角度，验证阶段的工作量在虚拟机的类加载过程中占了相当大的比重】<br>
+1）文件格式验证<br>
+验证字节流是否符合Class文件格式的规范<br>
+2）元数据验证<br>
+对字节码描述的信息进行语义分析，确保符合要求<br>
+3）字节码验证<br>
+通过数据流分析和控制流分析，确定程序的语义是合法的、符合逻辑的。【耗费时间多，优化后尽可能把更多的校验措施挪动到Javac编译器里进行】<br>
+4）符号引用验证<br>
+对类自身以外的各种类信息进行匹配性校验。<br>
+验证阶段不是必要的阶段，如果程序已被反复使用验证过，生产环境的实施可以考虑使用Xverify:none参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<h3 id="准备">准备</h3>
+<p>正式为类中定义的变量（静态变量，注不包括实例变量）分配内存并设置类变量初始值的阶段。<br>
+进行内存分配的仅包括类的实例变量，不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在Java堆中。</p>
+<h3 id="解析">解析</h3>
+<p>Java虚拟机将常量池内的符号引用（一组符号来描述所引用的目标）替换为直接引用（直接指向目标的指针）的过程。</p>
+<h3 id="初始化">初始化</h3>
+<p>1）根据程序编码制定的主观计划去初始化类变量和其他资源。初始化阶段就是执行类构造器<client>()方法的过程，<client>()是javac编译器的自动生成物。</p>
+<h2 id="类加载器">类加载器</h2>
+<p>让程序自己去获取所需的类，实现这个动作的代码为“类加载器”。【通过一个类的全限定名来获取描述该类的二进制字节流】<br>
+1）不同类加载器加载的类，尽管加载的类相同，也是不相等的（比对在同一个类加载器中加载出来的才有意义）。</p>
+<h3 id="启动类加载器">启动类加载器：</h3>
+<p>1）负责加载存放在HOME\lib下的目录，或者特定的存放目录，把虚拟机能够识别的类库加载到虚拟机的内存中，启动类加载器无法被Java程序直接引用。使用C++语言实现。</p>
+<h3 id="扩展类加载器">扩展类加载器：</h3>
+<p>1）负责加载HOME\lib\ext目录，或者被java.ext.dirs系统变量所指定的路径中的所有类库。扩展类加载器是由Java代码实现的，是Java系统类库的扩展机制，可以直接在程序中使用扩展类加载器来加载Class文件。</p>
+<h3 id="应用程序类加载器">应用程序类加载器：</h3>
+<p>1）负责加载用户类路径上所有的类库，开发者同样可以直接在代码中使用这个类加载器。</p>
+<h3 id="自定义类加载器">自定义类加载器</h3>
+<p>可以加入自定义的类加载器进行扩展，如增加除磁盘位置之外的Class文件来源等。</p>
+<h2 id="双亲委派模型">双亲委派模型</h2>
+<p>双亲委派模型要求除了顶层的启动类加载器外，其余的类加载器都应该有自己的父类加载器。（不是强制约束，是Java设计者们推荐给开发者的一种类加载器的最佳实践）<br>
+类加载器收到类加载的请求，首先不会自己尝试去加载这个类，而是把这个请求委派给父类加载器去完,n成。当父类加载器反馈自己无法完成这个加载请求时，子类加载器才会尝试自己去完成加载。<br>
+这样类加载就具有了优先级的层次关系，都优先寻找父类进行加载，因此Object类在程序的各类加载环境中都能保证是同一个类。【不同类加载器加载出来的东西是不同的】</p>
+<h2 id="破坏双亲委派模型">破坏双亲委派模型</h2>
+<p>1）在JDK1.2之前存在的代码无引入双亲委派模型，引导用户编写类加载逻辑的时候尽可能重写这个方法<br>
+2）使用线程上下文类加载器，实际打通了双亲委派模型的层次结构来逆向使用类加载器。<br>
+3）代码热替换、热部署带来的破坏。热部署的类加载器不再使用双亲委派模型推荐的树状结构，而是进一步发展为更加复杂的网状结构。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-la-ji-shou-ji-qi/">
+                  <h3 class="post-title">
+                    Java虚拟机垃圾收集器
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

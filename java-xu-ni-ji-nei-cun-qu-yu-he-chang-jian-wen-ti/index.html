@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java虚拟机内存区域和常见问题 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Java把控制内存的权力交给虚拟机，如果出现内存泄漏和溢出的问题，不了解虚拟机使用内存的，排查错误和修正错误会非常的艰难。
+虚拟机管理的内存包括：
+运行时数据区域
+程序计数器
+是一块较小的内存空间，通过改变这个计数器的值选取下一条需要执行的..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java虚拟机内存区域和常见问题</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <p>Java把控制内存的权力交给虚拟机，如果出现内存泄漏和溢出的问题，不了解虚拟机使用内存的，排查错误和修正错误会非常的艰难。<br>
+虚拟机管理的内存包括：</p>
+<h1 id="运行时数据区域">运行时数据区域</h1>
+<h2 id="程序计数器">程序计数器</h2>
+<p>是一块较小的内存空间，通过改变这个计数器的值选取下一条需要执行的字节码指令，是程序控制流的指示器。<br>
+每个线程都有自己的程序计数器，用于线程切换后能恢复到正确执行的位置。（“线程私有”的内存）。该区域是唯一一个在《Java虚拟机规范》中没有规定任何OutOfMemoryError情况的区域。</p>
+<h2 id="虚拟机栈">虚拟机栈</h2>
+<p>也是线程私有内存，生命周期和线程相同。描述的是Java方法执行的线程内存模型。每个方法执行的时候创建帧栈，存储局部变量表、操作栈、动态连接、方法出口等信息。<br>
+数据类型在局部变量表中的存储空间以局部变量槽来表示，long和double的数据类型会占用两个变量槽，其余的占一个。<br>
+线程请求的栈深度大于虚拟机的深度：StackOverFlowError<br>
+Java虚拟机栈扩展无法申请到足够的内存区域：OutOfMemoryError</p>
+<h2 id="java堆">Java堆</h2>
+<p>Java堆是虚拟机管理的内存最大的一块，是被所有线程锁共享的一块内存区域。所有的对象实例都是在这里分配内存的（GC堆，垃圾收集器管理的内存区域）。Java堆可以按照（-Xms和-Xms设定）。如果在Java堆无法扩展，虚拟机会抛出OutOfMemroyError。（所有对象实例及数组都应当在堆上分配）</p>
+<h2 id="方法区">方法区</h2>
+<p>各个线程共享的内存区域，用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码缓存等数据。（非堆、Non-Heap）方法区无法满足新的内存分配需求时，将抛出OutOfMemoryError异常。</p>
+<h2 id="运行时常量池">运行时常量池</h2>
+<p>是方法区的一部分，编译器生成的字面量和符号引用，在类加载后存放到方法区的运行时常量池中。（运行期间也可以将新的常量放入池中，如使用String的intern()方法）。</p>
+<h2 id="直接内存">直接内存</h2>
+<p>在JDK1.4中，加入NIO，引入了基于通道与缓存区的IO方式，可以使用Native函数库直接分配堆外内存，能在一些场景显著提高性能，避免Java堆和Native堆中来回复制数据。服务器参数配置时，会经常忽略直接内存，使得各个内存区域总和大于物理内存限制，从而导致OutOfMemoryError异常。</p>
+<h1 id="常见问题">常见问题</h1>
+<h2 id="java堆溢出">Java堆溢出</h2>
+<p>Java堆内存的OutOfMemoryError异常是实际中最常见的内存溢出异常情况。<br>
+异常堆栈信息“java.lang.OutOfMemoryError”，进一步提示“Java heap space”。<br>
+常规处理方式：<br>
+1）通过内存映像分析工具对Dump出来的堆转储进行分析。分析确认是内存泄露还是内存溢出。<br>
+2）如果是内存泄露，可以通过工具查看泄露对象的GC Roots的引用链，分析引用路径，如何导致了垃圾收集器无法回收他们。<br>
+3）如果是对象都必须存活即内存溢出的情况，则应设置虚拟机的堆参数（Xmx和xms）。看是否有需要向上调整的空间。</p>
+<h2 id="虚拟机栈和本地方法栈溢出">虚拟机栈和本地方法栈溢出</h2>
+<p>栈容量由Xss参数来设定。异常情况包括：<br>
+1）如果线程请求的栈深度大于虚拟机所允许的最大深度，将抛出StackOverFlowError<br>
+a.不断调用方法<br>
+b.线程局部变量过大过多<br>
+c.不限于单线程，通过不断建立线程的方式，在HotSpot上也可以产生内存溢出的异常。【每个线程分配到的栈内存越大，可以建立的线程数量就越少，建立线程时就越容易把剩下的内存耗尽,可以通过减少最大堆和减少栈容量来换取更多的线程】，提示消息如：unable to create native thread<br>
+如果虚拟机的栈内存允许动态扩展，当扩展栈容量无法申请到足够的内存时，将抛出OutOfMemoryError异常。</p>
+<h2 id="方法区和运行时常量池溢出">方法区和运行时常量池溢出</h2>
+<p>1）抛出异常消息为“OutOfMemoryError”，在JDK 1.6或以下版本为PermGen space。说明运行时常量池属于方法区。<br>
+2）在JDK7或者更高的版本中，已经将字符串常量放置在Java堆中。<br>
+3）当前主流的框架如Spring、Hibernate对类进行增强时，都会使用到CGLib这类字节码技术，当增强类越多，就越需要越大的方法区以保证动态生成的新类型可以载入内存。<br>
+在经常运行时生成大量动态类的应用场景里，需要特别关注类的回收情况（类被垃圾回收期回收的条件是比较苛刻的）。</p>
+<h2 id="本机直接内存溢出">本机直接内存溢出</h2>
+<p>1）如果不指定内存，默认最大容量与Java堆最大值（Xmx一致）。<br>
+2）由直接内存溢出的明显特征是在Heap Dump文件中不会看见有明显的异常，如果内存溢出后产生的Dump文件很小，又直接使用了Directory或者NIO,则可以多考虑直接内存方面的原因。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-xu-ni-ji-de-li-shi/">
+                  <h3 class="post-title">
+                    Java的历史
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

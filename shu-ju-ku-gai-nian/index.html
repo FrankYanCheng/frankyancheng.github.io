@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>数据库概念 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="主要介绍常见的数据库类型和基础理论
+
+数据库类型
+关系型数据库
+用简单的二维关系表示数据库模型结构，使用结构化查询语言（SQL）对数据库进行操作。
+常见的有Oracle、DB2、SQL Server、Mysql
+
+
+
+数据库名称
+适用场景
+..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">数据库概念</h2>
+            <div class="post-date">2022-12-18</div>
+            
+            <div class="post-content" v-pre>
+              <p>主要介绍常见的数据库类型和基础理论</p>
+<!-- more -->
+<h1 id="数据库类型">数据库类型</h1>
+<h2 id="关系型数据库">关系型数据库</h2>
+<p>用简单的二维关系表示数据库模型结构，使用结构化查询语言（SQL）对数据库进行操作。<br>
+常见的有Oracle、DB2、SQL Server、Mysql</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据库名称</th>
+<th style="text-align:center">适用场景</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:center">缺点</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Oracle</td>
+<td style="text-align:center">一般用在满足对银行、金融、保险等行业大型数据库的需求上</td>
+<td style="text-align:center">1、具有很好的开放性 2、能在所有主流平台上运行 性能高、安全性高、风险低</td>
+<td style="text-align:center">1、对硬件要求很高 管理维护和操作比较复杂且昂贵</td>
+<td style="text-align:center">厂商：甲骨文，是世界上第一款支持SQL语言的关系型数据库，是世界上最流行的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">DB2</td>
+<td style="text-align:center">比较适合大型的分布式应用系统</td>
+<td style="text-align:center">1、稳定性、安全性、恢复性都很棒 2、从小规模到大规模的应用都可以使用</td>
+<td style="text-align:center">用起来繁琐</td>
+<td style="text-align:center">厂商：IBM</td>
+</tr>
+<tr>
+<td style="text-align:center">SQL Server</td>
+<td style="text-align:center">可以作为中型企业或者单位的数据库平台</td>
+<td style="text-align:center">功能全面、效率高</td>
+<td style="text-align:center">SQL Server只能在Windows系统中运行，无开放性</td>
+<td style="text-align:center">厂商：Microsoft</td>
+</tr>
+<tr>
+<td style="text-align:center">MySQL</td>
+<td style="text-align:center">广泛应用于互联网上的中小型网站中，并且大型网站也开始使用</td>
+<td style="text-align:center">1、Mysql是开源的，可以根据个人需要进行修改 2、体积小、速度快、成本低</td>
+<td style="text-align:center">1、安全系统复杂而且非标准 2、没有一种存储过程语言 3、不支持热备份</td>
+<td style="text-align:center">厂商：由瑞典MySQL AB公司开发，属于Oracle旗下产品</td>
+</tr>
+<tr>
+<td style="text-align:center">PostgreSQL</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">1、相比于MYSQL的各种text字段的限制，PG没有这个限制，可以支持各种大小，丰富的几何类型 2、事务隔离级别比Mysql会更好 3、任何子查询的性能都比Mysql要好 4、稳定性强，并且在高并发的读写条件下性能指标仍然维持在极限情况 有强悍的SQL编程能力</td>
+<td style="text-align:center">对超大内存下的内存使用率不那么充分</td>
+<td style="text-align:center">厂商：由瑞典MySQL AB公司开发，属于Oracle旗下产品</td>
+</tr>
+</tbody>
+</table>
+<!-- more -->
+<h2 id="非关系型数据库">非关系型数据库</h2>
+<p>解决大数据集合多重数据类带来的挑战，尤其是大数据应用难题。常见的非关系型数据库有Memcached、MongoDB、Redis、HBase等</p>
+<h3 id="数据库分类">数据库分类</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">数据模型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">键值（key-value）存储数据库</td>
+<td style="text-align:center">通常用hash表来实现</td>
+<td style="text-align:center">常用于大量数据的高负载缓存，但是只对部分数据进行高负载查询或者更新的时候，效率则较低</td>
+</tr>
+<tr>
+<td style="text-align:center">列存储数据库</td>
+<td style="text-align:center">使用列簇将同一列数据存储在一起</td>
+<td style="text-align:center">查询速度快，多用于分布式文件系统</td>
+</tr>
+<tr>
+<td style="text-align:center">文档型数据库</td>
+<td style="text-align:center">Key-value对应的键值，Value值为结构化数据</td>
+<td style="text-align:center">较为灵活，但是查询性能不高，可用于Web应用</td>
+</tr>
+<tr>
+<td style="text-align:center">图像数据库</td>
+<td style="text-align:center">图结构</td>
+<td style="text-align:center">使用最短路径寻址，N度查找等</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常见数据库">常见数据库</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据库名称</th>
+<th style="text-align:center">适用场景</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Redis</td>
+<td style="text-align:center">数据变化较少，执行预定义查询、进行数据统计的。如股票价格、数据分析、实时数据收集等 Key-Value型数据库</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">MongoDB</td>
+<td style="text-align:center">执行动态查询 对大数据库有性能要求</td>
+<td style="text-align:center">基于分布式文件的数据库，介于关系型和非关系型数据库之间</td>
+</tr>
+<tr>
+<td style="text-align:center">Neo4j</td>
+<td style="text-align:center">适用于存储图形一类的数据，如社会关系、地图和网络拓扑等</td>
+<td style="text-align:center">高性能NoSQL图形数据库，将数据存储在网络上而不是表中</td>
+</tr>
+<tr>
+<td style="text-align:center">Casandra</td>
+<td style="text-align:center">适用于存储特别大的数据，在银行金融业中使用，写比读更快</td>
+<td style="text-align:center">使用列存储的混合型的非关系的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">HBase</td>
+<td style="text-align:center">对大数据进行随机、实时访问</td>
+<td style="text-align:center">分布式的、面向列的开源数据库，是一个适合非结构化数据存储的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">CouchDB</td>
+<td style="text-align:center">数据变化较少</td>
+<td style="text-align:center">面向文档的数据库管理系统</td>
+</tr>
+</tbody>
+</table>
+<!-- more -->
+<h1 id="数据库基本理论">数据库基本理论</h1>
+<h2 id="acid理论">ACID理论</h2>
+<p>数据库系统在写入或者更新资料的过程中，为保证事务的正确性和可靠性必须具备的四个特性。<br>
+A-Automicity（原子性）<br>
+一个事务中的所有操作，要么全部完成要么全部不完成，不会结束在中间的某个环节。<br>
+C- Consistency（一致性）<br>
+写入的资料必须完全符合所有的预设规则<br>
+I- Isolation（隔离性）<br>
+隔离性防止多个事务并发执行时由于交叉执行导致的数据不一致性。<br>
+D- Durabiliy（持久性）<br>
+事务处理结束以后，对数据的修改是永久，即使系统故障也不会丢失。</p>
+<h2 id="分布式系统理论">分布式系统理论</h2>
+<p>分布式系统最大的特点是可扩展性，能够适应需求变化而扩展。通过增加服务器数量来增强分布式系统整体的处理能力，以应对企业增长带来的计算需求增加。</p>
+<h2 id="cap理论">CAP理论</h2>
+<p>一个分布式系统不可能同时满足一致性（C）、可用性（A）、分区容错性（P）三个要求，最多只能满足其中的两项，对于一个分布式系统，分区容错性是基本需求。一般需要在C和A之间寻求平衡。<br>
+一致性（Consistency）<br>
+更新操作完成后，所有节点在同一时间的数据完全一致<br>
+可用性（Availabiliy）<br>
+即使是严重的网络错误，每个请求必须完成<br>
+分区容错性（Partition tolerance）<br>
+遇到某个节点或者网络分区故障时候，仍然能够对外提供满足一致性和可用性的服务</p>
+<h2 id="base理论">Base理论</h2>
+<p>分布式系统在出现故障的时候允许损失部分性能，保证核心功能或者当前最重要的功能可用。允许系统在不同节点的数据副本之间进行数据同步时存在延迟。</p>
+<h2 id="分布式存储算法">分布式存储算法</h2>
+<p>1）一致性算法-Paxos<br>
+解决一个分布式系统如何就某个值达成一致，是一种基于消息传递模型的一致性算法<br>
+2）一致性哈希算法<br>
+通常分布式系统中存储的内容是hash中的一部分，一致性哈希算法解决如何在动态的网络拓扑中分布存储和路由</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/git-xue-xi-bi-ji/">
+                  <h3 class="post-title">
+                    git学习笔记
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

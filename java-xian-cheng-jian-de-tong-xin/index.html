@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java线程间的通信 | 没马蹄的小栈</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://frankyancheng.github.io//favicon.ico?v=1672102811711">
+<link rel="stylesheet" href="https://frankyancheng.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="就绪队列：存储将要获得锁的线程，一个线程被唤起后，会进入就绪队列。
+阻塞队列：存储被阻塞的线程，一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。
+等待/通知机制
+通过轮询可以实现线程间的通信，但是会耗费CPU的资源。
+方法在同步方..." />
+    <meta name="keywords" content="阅读笔记,Java,编程语言" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://frankyancheng.github.io/">
+        <img src="https://frankyancheng.github.io//images/avatar.png?v=1672102811711" class="site-logo">
+        <h1 class="site-title">没马蹄的小栈</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      乱花渐欲迷人眼，浅草才能没马蹄
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://frankyancheng.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java线程间的通信</h2>
+            <div class="post-date">2022-10-18</div>
+            
+            <div class="post-content" v-pre>
+              <p>就绪队列：存储将要获得锁的线程，一个线程被唤起后，会进入就绪队列。<br>
+阻塞队列：存储被阻塞的线程，一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。</p>
+<h2 id="等待通知机制">等待/通知机制</h2>
+<p>通过轮询可以实现线程间的通信，但是会耗费CPU的资源。<br>
+方法在同步方法或者同步块中调用<br>
+wait()方法是Object类的方法，将当前线程代码放入预执行队列，直到接到通知或被中断为止，被执行完成后，锁会自动释放。Wait（毫秒数）中可以设置等待时间，等到期以后自动唤起。<br>
+notify()方法是通知可能等待该对象的对象锁的其他线程，如果有多个线程等待，则由线程规划器随机挑选一个呈wait状态的线程，对其发出notify()。必须执行完notify()方法所在的同步块所在的方法后，才会释放锁。注意wait()和notify()方法的顺序，必须先要调用wait后再调用notify()，否则先执行了notify()，则wait()就没有办法唤起了，需要配合对象监视器synchronized（x）方法使用<br>
+notifyAll()方法可以使所有正在等待队列中等待同一共享资源的“全部”线程从等待状态退出，执行顺序也不一定。<br>
+wait()与notify()是生产消费者模式<br>
+注：wait方法释放锁，但是sleep方法不释放锁，notify执行完成后不释放锁，需要等待执行完notify()方法所在的synchronized代码块后才释放锁。</p>
+<h2 id="线程状态的切换">线程状态的切换</h2>
+<p>runnable状态：调用线程的start()方法，系统会为此线程分配CPU资源，如抢占资源成功则变为running状态。<br>
+blocked状态：系统阻塞状态，如遇到一个I/O等类似操作，则由running变为blocked状态。</p>
+<h2 id="管道进行线程间通信字节流-字符流">管道进行线程间通信：字节流、字符流</h2>
+<p>通过管道流（pipeStream）实现不同线程间的数据通信。使用PipedInputStream和PipedOutputStream绑定连接，通过PipedReader和PipedWriter实现字符流的通信。</p>
+<h2 id="join方法">Join方法</h2>
+<p>使当前主线程进行等待。主线程想通过子线程执行完成之后再结束，join方法是等待线程对象销毁。方法join具有使线程排队运行的作用，使所属线程对象正常执行run方法中的任务，而使当前线程进行无限期的阻塞，等待附属线程x销毁后再继续执行线程后面的代码。<br>
+join(long):不管x线程是否执行完毕，时间到了并且重新获得锁，则当前线程会继续向后执行。<br>
+Join方法(long)和Sleep(long)的区别：<br>
+Join(long)执行后会释放锁，其他线程可以调用此线程中的同步方法。<br>
+Sleep(long)方法不释放锁</p>
+<h2 id="threadlocal的使用">ThreadLocal的使用</h2>
+<p>变量值的共享可以使用public static变量的形式，所有线程都使用同一个public static变量。可以使用ThreadLocal使得每个线程绑定自己的值（虽然是静态变量，但是每个线程都是单独存放的私有数据）。实际的实现方式是将线程数据放入当前线程对象的Map中。<br>
+可以使用ThreadLocalExt实现ThreadLocal值的初始化。</p>
+<h2 id="inheritablethreadlocal的使用">InheritableThreadLocal的使用</h2>
+<p>使用InheritableThreadLocal类可以让子线程从父线程中取得值。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://frankyancheng.github.io/kqObqs214/" class="tag">
+                    阅读笔记
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/YdZpMeBAX/" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="https://frankyancheng.github.io/65qY3MWIr/" class="tag">
+                    编程语言
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://frankyancheng.github.io/java-duo-xian-cheng-dui-xiang-ji-bian-liang-de-bing-fa-fang-wen/">
+                  <h3 class="post-title">
+                    Java多线程对象及变量的并发访问
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
